@@ -2,7 +2,7 @@ DECEPTICON
 -
 DEconvolution for CEll Proportion esTImation by CONsensus
 
-Installation
+Install associated packages
 -
 Most dependent packages can be installed by the code below:
 ```R
