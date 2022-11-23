@@ -1,5 +1,7 @@
 DECEPTICON
 -
+![image](https://github.com/Hao-Zou-lab/DECEPTICON/blob/main/fig/pro.tiff)
+
 DEconvolution for CEll Proportion esTImation by CONsensus
 
 Install associated packages
@@ -70,6 +72,8 @@ Download the required files from exdata in the current interface:
 4. Create a folder named "res" at the same path, and all the results will be saved in this folder.
 5.Create a folder named "batman" to store BATMAN's data.
 6.Before running DECEPTICON, need to modify BATMAN's data. See "batman _ usage" for detailed use of BATMAN.
+
+![image](https://github.com/Hao-Zou-lab/DECEPTICON/blob/main/fig/1.tif)
 
 Run DECEPTICON 
 -
