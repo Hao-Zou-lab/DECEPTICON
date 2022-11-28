@@ -69,9 +69,7 @@ Download the required files from exdata in the current interface:
 2. exdata also contains other files required by DECEPTICON. After downloading, these files are stored in the same path as "signature_matrix".
    Note: the file type of the expression template is txt, with rows representing genes and columns representing cell types; the names of all files cannot be changed.
 3. If the user wants to use the custom expression template,it needs to be stored in the "custom_signature_matrix" folder of the same path.
-4. Create a folder named "res" at the same path, and all the results will be saved in this folder.
-5.Create a folder named "batman" to store BATMAN's data.
-6.Before running DECEPTICON, need to modify BATMAN's data. See "batman _ usage" for detailed use of BATMAN.
+4. Before running DECEPTICON, need to modify BATMAN's data. See "batman _ usage" for detailed use of BATMAN.
 
 ![image](https://github.com/Hao-Zou-lab/DECEPTICON/blob/main/fig/1.tif)
 
