@@ -1,0 +1,23 @@
+Metabolite,pos_in_ppm,couple_code,J_constant,relative_intensity,overwrite_pos,overwrite_truncation,Include_multiplet
+B cells naive,261,-2,"1,522",1,n,n,1
+B cells memory,261,-2,"1,522",1,n,n,1
+Plasma cells,261,-2,"1,522",1,n,n,0
+T cells CD8,261,-2,"1,522",1,n,n,1
+T cells CD4 naive,261,-2,"1,522",1,n,n,1
+T cells CD4 memory resting,261,-2,"1,522",1,n,n,1
+T cells CD4 memory activated,261,-2,"1,522",1,n,n,1
+T cells follicular helper,261,-2,"1,522",1,n,n,1
+T cells regulatory (Tregs),261,-2,"1,522",1,n,n,1
+T cells gamma delta,261,-2,"1,522",1,n,n,0
+NK cells resting,261,-2,"1,522",1,n,n,1
+NK cells activated,261,-2,"1,522",1,n,n,1
+Monocytes,261,-2,"1,522",1,n,n,1
+Macrophages M0,261,-2,"1,522",1,n,n,1
+Macrophages M1,261,-2,"1,522",1,n,n,1
+Macrophages M2,261,-2,"1,522",1,n,n,1
+Dendritic cells resting,261,-2,"1,522",1,n,n,1
+Dendritic cells activated,261,-2,"1,522",1,n,n,1
+Mast cells resting,261,-2,"1,522",1,n,n,0
+Mast cells activated,261,-2,"1,522",1,n,n,0
+Eosinophils,261,-2,"1,522",1,n,n,0
+Neutrophils,261,-2,"1,522",1,n,n,0

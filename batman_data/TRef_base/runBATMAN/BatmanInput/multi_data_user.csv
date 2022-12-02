@@ -1,0 +1,8 @@
+Metabolite,pos_in_ppm,couple_code,J_constant,relative_intensity,overwrite_pos,overwrite_truncation,Include_multiplet
+B cells naive,261,-2,"1,522",1,n,n,1
+CAFs,261,-2,"1,522",1,n,n,0
+T cells CD4 naive ,261,-2,"1,522",1,n,n,1
+CD8_T cells,261,-2,"1,522",1,n,n,1
+Endothelial,261,-2,"1,522",1,n,n,0
+Macrophages M0,261,-2,"1,522",1,n,n,1
+NK cells activated,261,-2,"1,522",1,n,n,1
