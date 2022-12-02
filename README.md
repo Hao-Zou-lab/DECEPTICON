@@ -60,7 +60,7 @@ Install DECEPTICON
 -
 Now, we can install the DECEPTICON by downloading the installation file in this page (Decepticon_1.0.0.0.tar.gz), and install it:
 ```R
-install.packages("Decepticon_1.0.0.0.tar.gz", repos = NULL, type = "source")
+install.packages("Decepticon_1.0.0.1.tar.gz", repos = NULL, type = "source")
 ```
 Preparatory Work
 -
@@ -71,7 +71,7 @@ Download the required files from exdata in the current interface:
 3. If the user wants to use the custom expression template,it needs to be stored in the "custom_signature_matrix" folder of the same path.
 4. Before running DECEPTICON, need to modify BATMAN's data. See "batman _ usage" for detailed use of BATMAN.
 
-![image](https://github.com/Hao-Zou-lab/DECEPTICON/blob/main/fig/1.tif)
+![image](https://github.com/Hao-Zou-lab/DECEPTICON/blob/main/f.png)
 
 Run DECEPTICON 
 -
@@ -86,8 +86,6 @@ run_DECEPTICON(bulk.samples, RUNpath, path, light=FALSE, custom.signature=FALSE,
 
 `RUNpath` is the path where the above files (“signature_matrix”, “cibersort.R”, “DOCKER_codes.R”, etc.) are stored.
 
-`path` is the path where all results are stored, i.e. “./RUNpath/res”
-
 `light` set TRUE for light version of DECEPTICON, running time reduced.
 
 `custom.signature` set TRUE for custom signature matrix.
@@ -96,6 +94,19 @@ run_DECEPTICON(bulk.samples, RUNpath, path, light=FALSE, custom.signature=FALSE,
 
 Example:
 ```R
-Run_DECEPTICON(bulk.samples, RUNpath, path, custom.signature=TRUE, signature.matrix=c(“./custom.signature1.txt”, “./custom.signature2.txt”)) #custom signature
-Run_DECEPTICON(bulk.samples, RUNpath, path, light = TRUE) #light version
+#Run DECEPTICON with custom expression templates
+run_DECEPTICON(bulk.samples = "./user_path/mixture_HNSCC.txt", 
+               RUNpath = "./user_path", custom.signature = TRUE,
+               signature.matrix = c("./user_path/custom_signature_matrix/custom_expression_template_1.txt",
+                                    "./user_path/custom_signature_matrix/custom_expression_template_2.txt",
+                                    "./user_path/custom_signature_matrix/custom_expression_template_3.txt"))
+                                    
+#Run DECEPTICON with a custom expression templates
+run_DECEPTICON(bulk.samples = "./user_path/mixture_HNSCC.txt", 
+               RUNpath = "./user_path", custom.signature = TRUE,
+               signature.matrix = "./user_path/custom_signature_matrix/custom_expression_template_1.txt")
+ 
+#Run the light version of DECEPTICON.
+run_DECEPTICON(bulk.samples = ./user_path/mixture_HNSCC.txt", 
+               RUNpath = "./user_path", light = TRUE)
 ```
