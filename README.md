@@ -70,6 +70,7 @@ Download the required files from exdata in the current interface:
    Note: the file type of the expression template is txt, with rows representing genes and columns representing cell types; the names of all files cannot be changed.
 3. If the user wants to use the custom expression template,it needs to be stored in the "custom_signature_matrix" folder of the same path.
 4. Before running DECEPTICON, need to modify BATMAN's data. See "batman _ usage" for detailed use of BATMAN.
+   Example files of mand are in "batmand _ data"
 
 ![image](https://github.com/Hao-Zou-lab/DECEPTICON/blob/main/f.png)
 
