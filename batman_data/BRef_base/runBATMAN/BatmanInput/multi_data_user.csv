@@ -1,0 +1,7 @@
+Metabolite,pos_in_ppm,couple_code,J_constant,relative_intensity,overwrite_pos,overwrite_truncation,Include_multiplet
+Bcells,257,-2,"1,514",1,n,n,1
+CD4_Tcells,257,-2,"1,514",1,n,n,1
+CD8_Tcells,257,-2,"1,514",1,n,n,1
+Monocytes,257,-2,"1,514",1,n,n,1
+Neutrophils,257,-2,"1,514",1,n,n,0
+NKcells,257,-2,"1,514",1,n,n,1
