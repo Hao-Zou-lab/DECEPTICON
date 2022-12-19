@@ -1,6 +1,6 @@
 DECEPTICON
 -
-![image](https://github.com/Hao-Zou-lab/DECEPTICON/raw/main/fig/pro.png)
+![logo](./logo1.png)
 
 DEconvolution for CEll Proportion esTImation by CONsensus
 
