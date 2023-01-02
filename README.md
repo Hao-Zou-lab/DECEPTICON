@@ -60,7 +60,7 @@ Install DECEPTICON
 -
 Now, we can install the DECEPTICON by downloading the installation file in this page (Decepticon_1.0.0.0.tar.gz), and install it:
 ```R
-install.packages("Decepticon_1.0.0.1.tar.gz", repos = NULL, type = "source")
+install.packages("DECEPTICON_1.0.0.1.tar.gz", repos = NULL, type = "source")
 ```
 Preparatory Work
 -
@@ -77,7 +77,10 @@ Download the required files from exdata in the current interface:
 Run DECEPTICON 
 -
 ```R
-library(Decepticon)
+library(DECEPTICON)
+library(pkgmaker)
+library(xbioc)
+library(MuSiC)
 ```
 The input requires a bulk sample (a m * n matrix with m genes and n samples) and expression template(s) for cell type (i * k matrix with i genes and k cell types)
 
