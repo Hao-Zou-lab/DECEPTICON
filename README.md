@@ -55,12 +55,15 @@ install.packages("vegan")
 install.packages("plotrix")
 install.packages("doSNOW")
 install.packages("batman_1.2.1.13.tar.gz", repos = NULL, type = "source")
+
+#BayesPrism
+library("devtools");
+install_github("Danko-Lab/BayesPrism/BayesPrism")
 ```
 Install DECEPTICON
 -
-Now, we can install the DECEPTICON by downloading the installation file in this page (Decepticon_1.0.0.0.tar.gz), and install it:
 ```R
-install.packages("DECEPTICON_1.0.0.1.tar.gz", repos = NULL, type = "source")
+install.packages("DECEPTICON_1.0.0.2.tar.gz", repos = NULL, type = "source")
 ```
 Preparatory Work
 -
