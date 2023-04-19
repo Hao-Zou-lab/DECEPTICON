@@ -220,11 +220,17 @@ DECEPTICON_batman_custom <- function(signature.matrix){
 #'@param signature.matrix a i*l matrix with i genes and l cell types.
 #'@param RUNpath Working path for storing files
 #'@export
-DECEPTICON_custom_methods <- function(signature.matrix, bulk.samples, RUNpath){
-  bulk.samples = bulk.samples
+DECEPTICON_custom_methods <- function(signature.matrix, bulk.samples, RUNpath, light, single.cell, single.cell.data, cell.type.labels){
   signature.matrix = signature.matrix
+  bulk.samples = bulk.samples
   RUNpath = RUNpath
+  light = light
+  single.cell = single.cell
+  cell.type.labels = cell.type.labels
+  single.cell.data = single.cell.data
   setwd(RUNpath)
+  dir.create("res")
+  if(single.cell == FALSE){
   message(paste0("\n",">>> Running ", "CIBERSORT"))
   DECEPTICON_ciber_custom(mixture_file = bulk.samples, signature.matrix = signature.matrix)
   message(paste0("\n",">>> Running ", "CIBERSORT-abs"))
@@ -249,4 +255,32 @@ DECEPTICON_custom_methods <- function(signature.matrix, bulk.samples, RUNpath){
   DECEPTICON_music_custom(data, signature.matrix = signature.matrix)
   message(paste0("\n",">>> Running ", "Batman, may take a long time to run"))
   DECEPTICON_batman_custom(signature.matrix = signature.matrix)
+  } else {
+    message(paste0("\n",">>> Running ", "BayesPrism"))
+    DECEPTICON_bayes(mixture_file = bulk.samples, single_cell_data = single.cell.data, cell.type.labels = cell.type.labels)
+    message(paste0("\n",">>> Running ", "CIBERSORT"))
+    DECEPTICON_ciber_custom(mixture_file = bulk.samples, signature.matrix = signature.matrix)
+    message(paste0("\n",">>> Running ", "CIBERSORT-abs"))
+    DECEPTICON_ciber_abs_custom(mixture_file = bulk.samples, signature.matrix = signature.matrix)
+    message(paste0("\n",">>> Running ", "EPIC"))
+    DECEPTICON_epic_custom(mix.mat = bulk.samples, signature.matrix = signature.matrix)
+    message(paste0("\n",">>> Running ", "DeconRNAseq"))
+    DECEPTICON_decon_custom(dataset = bulk.samples, signature.matrix = signature.matrix)
+    message(paste0("\n",">>> Running ", "MCPcounter"))
+    DECEPTICON_mcp_custom(data = bulk.samples, signature.matrix = signature.matrix)
+    message(paste0("\n",">>> Running ", "quanTIseq"))
+    DECEPTICON_quan_custom(mix.mat = bulk.samples, signature.matrix = signature.matrix)
+    message(paste0("\n",">>> Running ", "Bseq-SC"))
+    data = read.table(bulk.samples, header = T,sep = '\t',row.names = 1)
+    fdata = rownames(data)
+    pdata = cbind(sampleID = c(rep(1:length(data))),subjectname = c(rep("num1",times=length(data))),celltypeID = rep(1:length(data)))
+    data = SCDC::getESET(data,fdata = fdata,pdata = pdata)
+    DECEPTICON_bseq_custom(data, signature.matrix = signature.matrix)
+    message(paste0("\n",">>> Running ", "SCDC"))
+    DECEPTICON_scdc_custom(data, signature.matrix = signature.matrix)
+    message(paste0("\n",">>> Running ", "MuSic"))
+    DECEPTICON_music_custom(data, signature.matrix = signature.matrix)
+    message(paste0("\n",">>> Running ", "Batman, may take a long time to run"))
+    DECEPTICON_batman_custom(signature.matrix = signature.matrix)
+  }
 }

@@ -45,7 +45,7 @@ optimal_id<-function(matrix,n){
 #'
 #'@param path The storage path for the results of the analysis strategies
 #'@export
-DECEPTICON_output <- function(light = FALSE){
+DECEPTICON_output <- function(light = FALSE, single.cell = FALSE){
   #cibersort
   res1 = read.table('./res/ciber_ciber.txt',header = T, sep = "\t", row.names = 1)
   res4 = read.table('./res/ciber_quan.txt',header = T, sep = "\t", row.names = 1)
@@ -125,139 +125,126 @@ DECEPTICON_output <- function(light = FALSE){
     res49 = data.frame(t(read.table('./res/batman_quan.txt',header = T, sep = "\t", row.names = 1)))
     res50 = data.frame(t(read.table('./res/batman_immu.txt',header = T, sep = "\t", row.names = 1)))
   }
+  
+  if(single.cell == TRUE){
+    res51 = read.table('./res/bayes_bayes.txt',header = T, sep = "\t", row.names = 1)
+  }
 
 
   #choose
-    #B cell
-    if(light == FALSE){
-      b_cell_data = data.frame(ciber_ciber=res1$B.cells.naive+res1$B.cells.memory+res1$Plasma.cells,ciber_TRef = res2$B.cells.naive,ciber_BRef = res3$Bcells,ciber_quan=res4$B.cells,ciber_immu=res5$naive_B_cell+res5$memory_B_cell+res5$plasma_cell,
-                               EPIC_ciber=res6$B.cells.naive+res6$B.cells.memory+res6$Plasma.cells,EPIC_TRef = res7$Bcells,EPIC_BRef = res8$Bcells,EPIC_quan=res9$B.cells,EPIC_immu=res10$naive_B_cell+res10$memory_B_cell+res10$plasma_cell,
-                               MCP_ciber=res11$B.cells.naive+res11$B.cells.memory+res11$Plasma.cells,MCP_TRef = res12$B.cells.naive,MCP_BRef = res13$Bcells,MCP_quan=res14$B.cells,MCP_immu=res15$naive_B_cell+res15$memory_B_cell+res15$plasma_cell,
-                               quan_ciber=res16$B.cells.naive+res16$B.cells.memory+res16$Plasma.cells,quan_TRef = res17$B.cells.naive,quan_BRef = res18$Bcells,quan_quan=res19$B.cells,quan_immu=res20$naive_B_cell+res20$memory_B_cell+res20$plasma_cell,
-                               Decon_ciber=res21$B.cells.naive+res21$B.cells.memory+res21$Plasma.cells,Decon_TRef = res22$B.cells.naive,Decon_BRef = res23$Bcells,Decon_quan=res24$B.cells,Decon_immu=res25$naive_B_cell+res25$memory_B_cell+res25$plasma_cell,
-                               ciber_abs_ciber=res26$B.cells.naive+res26$B.cells.memory+res26$Plasma.cells,ciber_abs_TRef = res27$B.cells.naive,ciber_abs_BRef = res28$Bcells,ciber_abs_quan=res29$B.cells,ciber_abs_immu=res30$naive_B_cell+res30$memory_B_cell+res30$plasma_cell,
-                               scdc_ciber=res31$B.cells.naive+res31$B.cells.memory+res31$Plasma.cells,scdc_TRef = res32$B.cells.naive,scdc_BRef = res33$Bcells,scdc_quan=res34$B.cells,scdc_immu=res35$naive_B_cell+res35$memory_B_cell+res35$plasma_cell,
-                               music_ciber=res36$B.cells.naive+res36$B.cells.memory+res36$Plasma.cells,music_TRef = res37$B.cells.naive,music_BRef = res38$Bcells,music_quan=res39$B.cells,music_immu=res40$naive_B_cell+res40$memory_B_cell+res40$plasma_cell,
-                               bseq_ciber=res41$B.cells.naive+res41$B.cells.memory+res41$Plasma.cells,bseq_TRef = res42$B.cells.naive,bseq_BRef = res43$Bcells,bseq_quan=res44$B.cells,bseq_immu=res45$naive_B_cell+res45$memory_B_cell+res45$plasma_cell,
-                               batman_ciber=res46$B.cells.naive+res46$B.cells.memory,batman_TRef = res47$B.cells.naive,batman_BRef = res48$Bcells,batman_quan=res49$B.cells,batman_immu=res50$naive_B_cell+res50$memory_B_cell+res50$plasma_cell)
+  b_cell_data = data.frame(ciber_ciber=res1$B.cells.naive+res1$B.cells.memory+res1$Plasma.cells,ciber_quan=res4$B.cells,ciber_immu=res5$naive_B_cell+res5$memory_B_cell+res5$plasma_cell,
+                           EPIC_ciber=res6$B.cells.naive+res6$B.cells.memory+res6$Plasma.cells,EPIC_TRef = res7$Bcells,EPIC_BRef = res8$Bcells,EPIC_quan=res9$B.cells,EPIC_immu=res10$naive_B_cell+res10$memory_B_cell+res10$plasma_cell,
+                           MCP_ciber=res11$B.cells.naive+res11$B.cells.memory+res11$Plasma.cells,MCP_TRef = res12$B.cells.naive,MCP_BRef = res13$Bcells,MCP_quan=res14$B.cells,MCP_immu=res15$naive_B_cell+res15$memory_B_cell+res15$plasma_cell,
+                           quan_ciber=res16$B.cells.naive+res16$B.cells.memory+res16$Plasma.cells,quan_TRef = res17$B.cells.naive,quan_BRef = res18$Bcells,quan_quan=res19$B.cells,quan_immu=res20$naive_B_cell+res20$memory_B_cell+res20$plasma_cell,
+                           Decon_ciber=res21$B.cells.naive+res21$B.cells.memory+res21$Plasma.cells,Decon_TRef = res22$B.cells.naive,Decon_BRef = res23$Bcells,Decon_quan=res24$B.cells,Decon_immu=res25$naive_B_cell+res25$memory_B_cell+res25$plasma_cell,
+                           ciber_abs_ciber=res26$B.cells.naive+res26$B.cells.memory+res26$Plasma.cells,ciber_abs_quan=res29$B.cells,ciber_abs_immu=res30$naive_B_cell+res30$memory_B_cell+res30$plasma_cell,
+                           scdc_ciber=res31$B.cells.naive+res31$B.cells.memory+res31$Plasma.cells,scdc_TRef = res32$B.cells.naive,scdc_BRef = res33$Bcells,scdc_quan=res34$B.cells,scdc_immu=res35$naive_B_cell+res35$memory_B_cell+res35$plasma_cell,
+                           music_ciber=res36$B.cells.naive+res36$B.cells.memory+res36$Plasma.cells,music_TRef = res37$B.cells.naive,music_BRef = res38$Bcells,music_quan=res39$B.cells,music_immu=res40$naive_B_cell+res40$memory_B_cell+res40$plasma_cell,
+                           bseq_ciber=res41$B.cells.naive+res41$B.cells.memory+res41$Plasma.cells,bseq_TRef = res42$B.cells.naive,bseq_BRef = res43$Bcells,bseq_quan=res44$B.cells,bseq_immu=res45$naive_B_cell+res45$memory_B_cell+res45$plasma_cell)
+  
+  cd4_data = data.frame(ciber_ciber=res1$T.cells.CD4.naive+res1$T.cells.CD4.memory.resting+res1$T.cells.CD4.memory.activated,ciber_quan=res4$T.cells.CD4,ciber_immu=res5$CD4_positive_alpha_beta_T_cell,
+                        EPIC_ciber=res6$T.cells.CD4.naive+res6$T.cells.CD4.memory.resting+res6$T.cells.CD4.memory.activated,EPIC_TRef = res7$CD4_Tcells,EPIC_BRef = res8$CD4_Tcells,EPIC_quan=res9$T.cells.CD4,EPIC_immu=res10$CD4_positive_alpha_beta_T_cell,
+                        MCP_ciber=res11$T.cells.CD4.naive+res11$T.cells.CD4.memory.resting+res11$T.cells.CD4.memory.activated,MCP_TRef = res12$T.cells.CD4.naive,MCP_BRef = res13$CD4_Tcells,MCP_quan=res14$T.cells.CD4,MCP_immu=res15$CD4_positive_alpha_beta_T_cell,
+                        quan_ciber=res16$T.cells.CD4.naive+res16$T.cells.CD4.memory.resting+res16$T.cells.CD4.memory.activated,quan_TRef = res17$T.cells.CD4.naive,quan_BRef = res18$CD4_Tcells,quan_quan=res19$T.cells.CD4,quan_immu=res20$CD4_positive_alpha_beta_T_cell,
+                        Decon_ciber=res21$T.cells.CD4.naive+res21$T.cells.CD4.memory.resting+res21$T.cells.CD4.memory.activated,Decon_TRef = res22$T.cells.CD4.naive,Decon_BRef = res23$CD4_Tcells,Decon_quan=res24$T.cells.CD4,Decon_immu=res25$CD4_positive_alpha_beta_T_cell,
+                        ciber_abs_ciber=res26$T.cells.CD4.naive+res26$T.cells.CD4.memory.resting+res26$T.cells.CD4.memory.activated,ciber_abs_quan=res29$T.cells.CD4,ciber_abs_immu=res30$CD4_positive_alpha_beta_T_cell,
+                        scdc_ciber=res31$T.cells.CD4.naive+res31$T.cells.CD4.memory.resting+res31$T.cells.CD4.memory.activated,scdc_TRef = res32$T.cells.CD4.naive,scdc_BRef = res33$CD4_Tcells,scdc_quan=res34$T.cells.CD4,scdc_immu=res35$CD4_positive_alpha_beta_T_cell,
+                        music_ciber=res36$T.cells.CD4.naive+res36$T.cells.CD4.memory.resting+res36$T.cells.CD4.memory.activated,music_TRef = res37$T.cells.CD4.naive,music_BRef = res38$CD4_Tcells,music_quan=res39$T.cells.CD4,music_immu=res40$CD4_positive_alpha_beta_T_cell,
+                        bseq_ciber=res41$T.cells.CD4.naive+res41$T.cells.CD4.memory.resting+res41$T.cells.CD4.memory.activated,bseq_TRef = res42$T.cells.CD4.naive,bseq_BRef = res43$CD4_Tcells,bseq_quan=res44$T.cells.CD4,bseq_immu=res45$CD4_positive_alpha_beta_T_cell)
+  
+  cd8_data = data.frame(ciber_ciber=res1$T.cells.CD8,ciber_quan=res4$T.cells.CD8,ciber_immu=res5$CD8_positive_alpha_beta_T_cell,
+                        EPIC_ciber=res6$T.cells.CD8,EPIC_TRef = res7$CD8_Tcells,EPIC_BRef = res8$CD8_Tcells,EPIC_quan=res9$T.cells.CD8,EPIC_immu=res10$CD8_positive_alpha_beta_T_cell,
+                        MCP_ciber=res11$T.cells.CD8,MCP_TRef = res12$CD8_T.cells,MCP_BRef = res13$CD8_Tcells,MCP_quan=res14$T.cells.CD8,MCP_immu=res15$CD8_positive_alpha_beta_T_cell,
+                        quan_ciber=res16$T.cells.CD8,quan_TRef = res17$CD8_T.cells,quan_BRef = res18$CD8_Tcells,quan_quan=res19$T.cells.CD8,quan_immu=res20$CD8_positive_alpha_beta_T_cell,
+                        Decon_ciber=res21$T.cells.CD8,Decon_TRef = res22$CD8_T.cells,Decon_BRef = res23$CD8_Tcells,Decon_quan=res24$T.cells.CD8,Decon_immu=res25$CD8_positive_alpha_beta_T_cell,
+                        ciber_abs_ciber=res26$T.cells.CD8,ciber_abs_quan=res29$T.cells.CD8,ciber_abs_immu=res30$CD8_positive_alpha_beta_T_cell,
+                        scdc_ciber=res31$T.cells.CD8,scdc_TRef = res32$CD8_T.cells,scdc_BRef = res33$CD8_Tcells,scdc_quan=res34$T.cells.CD8,scdc_immu=res35$CD8_positive_alpha_beta_T_cell,
+                        music_ciber=res36$T.cells.CD8,music_TRef = res37$CD8_T.cells,music_BRef = res38$CD8_Tcells,music_quan=res39$T.cells.CD8,music_immu=res40$CD8_positive_alpha_beta_T_cell,
+                        bseq_ciber=res41$T.cells.CD8,bseq_TRef = res42$CD8_T.cells,bseq_BRef = res43$CD8_Tcells,bseq_quan=res44$T.cells.CD8,bseq_immu=res45$CD8_positive_alpha_beta_T_cell)
+  
+  treg_data = data.frame(ciber_ciber=res1$T.cells.regulatory..Tregs.,ciber_quan=res4$Tregs,ciber_immu=0,
+                         EPIC_ciber=res6$T.cells.regulatory..Tregs.,EPIC_TRef = 0,EPIC_BRef = 0,EPIC_quan=res9$Tregs,EPIC_immu=0,
+                         MCP_ciber=res11$T.cells.regulatory..Tregs.,MCP_TRef = 0,MCP_BRef = 0,MCP_quan=res14$Tregs,MCP_immu=0,
+                         quan_ciber=res16$T.cells.regulatory..Tregs.,quan_TRef = 0,quan_BRef = 0,quan_quan=res19$Tregs,quan_immu=0,
+                         Decon_ciber=res21$T.cells.regulatory..Tregs.,Decon_TRef = 0,Decon_BRef = 0,Decon_quan=res24$Tregs,Decon_immu=0,
+                         ciber_abs_ciber=res26$T.cells.regulatory..Tregs.,ciber_abs_quan=res29$Tregs,ciber_abs_immu=0,
+                         scdc_ciber=res31$T.cells.regulatory..Tregs.,scdc_TRef = 0,scdc_BRef = 0,scdc_quan=res34$Tregs,scdc_immu=0,
+                         music_ciber=res36$T.cells.regulatory..Tregs.,music_TRef = 0,music_BRef = 0,music_quan=res39$Tregs,music_immu=0,
+                         bseq_ciber=res41$T.cells.regulatory..Tregs.,bseq_TRef = 0,bseq_BRef = 0,bseq_quan=res44$Tregs,bseq_immu=0)
+  
+  nk_data = data.frame(ciber_ciber=res1$NK.cells.resting+res1$NK.cells.activated,ciber_quan=res4$NK.cells,ciber_immu=res5$CD56bright_natural_killer_cell+res5$CD56dim_natural_killer_cell,
+                       EPIC_ciber=res6$NK.cells.resting+res6$NK.cells.activated,EPIC_TRef = res7$NKcells,EPIC_BRef = res8$NKcells,EPIC_quan=res9$NK.cells,EPIC_immu=res10$CD56bright_natural_killer_cell+res10$CD56dim_natural_killer_cell,
+                       MCP_ciber=res11$NK.cells.resting+res11$NK.cells.activated,MCP_TRef = res12$NK.cells.activated,MCP_BRef = res13$NKcells,MCP_quan=res14$NK.cells,MCP_immu=res15$CD56bright_natural_killer_cell+res15$CD56dim_natural_killer_cell,
+                       quan_ciber=res16$NK.cells.resting+res16$NK.cells.activated,quan_TRef = res17$NK.cells.activated,quan_BRef = res18$NKcells,quan_quan=res19$NK.cells,quan_immu=res20$CD56bright_natural_killer_cell+res20$CD56dim_natural_killer_cell,
+                       Decon_ciber=res21$NK.cells.resting+res21$NK.cells.activated,Decon_TRef = res22$NK.cells.activated,Decon_BRef = res23$NKcells,Decon_quan=res24$NK.cells,Decon_immu=res25$CD56bright_natural_killer_cell+res25$CD56dim_natural_killer_cell,
+                       ciber_abs_ciber=res26$NK.cells.resting+res26$NK.cells.activated,ciber_abs_quan=res29$NK.cells,ciber_abs_immu=res30$CD56bright_natural_killer_cell+res30$CD56dim_natural_killer_cell,
+                       scdc_ciber=res31$NK.cells.resting+res31$NK.cells.activated,scdc_TRef = res32$NK.cells.activated,scdc_BRef = res33$NKcells,scdc_quan=res34$NK.cells,scdc_immu=res35$CD56bright_natural_killer_cell+res35$CD56dim_natural_killer_cell,
+                       music_ciber=res36$NK.cells.resting+res36$NK.cells.activated,music_TRef = res37$NK.cells.activated,music_BRef = res38$NKcells,music_quan=res39$NK.cells,music_immu=res40$CD56bright_natural_killer_cell+res40$CD56dim_natural_killer_cell,
+                       bseq_ciber=res41$NK.cells.resting+res41$NK.cells.activated,bseq_TRef = res42$NK.cells.activated,bseq_BRef = res43$NKcells,bseq_quan=res44$NK.cells,bseq_immu=res45$CD56bright_natural_killer_cell+res45$CD56dim_natural_killer_cell)
+  
+  mm_data = data.frame(ciber_ciber=res1$Monocytes+res1$Macrophages.M0+res1$Macrophages.M1+res1$Macrophages.M2,ciber_quan=res4$Macrophages.M1+res4$Macrophages.M2+res4$Monocytes,ciber_immu=res5$CD14_positive_monocyte+res5$CD16_positive_monocyte+res5$macrophage_m0+res5$macrophage_m1+res5$macrophage_m2,
+                       EPIC_ciber=res6$Monocytes+res6$Macrophages.M0+res6$Macrophages.M1+res6$Macrophages.M2,EPIC_TRef = res7$Macrophages,EPIC_BRef = res8$Monocytes,EPIC_quan=res9$Macrophages.M1+res9$Macrophages.M2+res9$Monocytes,EPIC_immu=res10$CD14_positive_monocyte+res10$CD16_positive_monocyte+res10$macrophage_m0+res10$macrophage_m1+res10$macrophage_m2,
+                       MCP_ciber=res11$Monocytes+res11$Macrophages.M0+res11$Macrophages.M1+res11$Macrophages.M2,MCP_TRef = res12$Macrophages.M0,MCP_BRef = res13$Monocytes,MCP_quan=res14$Macrophages.M1+res14$Macrophages.M2+res14$Monocytes,MCP_immu=res15$CD14_positive_monocyte+res15$CD16_positive_monocyte+res15$macrophage_m0+res15$macrophage_m1+res15$macrophage_m2,
+                       quan_ciber=res16$Monocytes+res16$Macrophages.M0+res16$Macrophages.M1+res16$Macrophages.M2,quan_TRef = res17$Macrophages.M0,quan_BRef = res18$Monocytes,quan_quan=res19$Macrophages.M1+res19$Macrophages.M2+res19$Monocytes,quan_immu=res20$CD14_positive_monocyte+res20$CD16_positive_monocyte+res20$macrophage_m0+res20$macrophage_m1+res20$macrophage_m2,
+                       Decon_ciber=res21$Monocytes+res21$Macrophages.M0+res21$Macrophages.M1+res21$Macrophages.M2,Decon_TRef = res22$Macrophages.M0,Decon_BRef = res23$Monocytes,Decon_quan=res24$Macrophages.M1+res24$Macrophages.M2+res24$Monocytes,Decon_immu=res25$CD14_positive_monocyte+res25$CD16_positive_monocyte+res25$macrophage_m0+res25$macrophage_m1+res25$macrophage_m2,
+                       ciber_abs_ciber=res26$Monocytes+res26$Macrophages.M0+res26$Macrophages.M1+res26$Macrophages.M2,ciber_abs_quan=res29$Macrophages.M1+res29$Macrophages.M2+res29$Monocytes,ciber_abs_immu=res30$CD14_positive_monocyte+res30$CD16_positive_monocyte+res30$macrophage_m0+res30$macrophage_m1+res30$macrophage_m2,
+                       scdc_ciber=res31$Monocytes+res31$Macrophages.M0+res31$Macrophages.M1+res31$Macrophages.M2,scdc_TRef = res32$Macrophages.M0,scdc_BRef = res33$Monocytes,scdc_quan=res34$Macrophages.M1+res34$Macrophages.M2+res34$Monocytes,scdc_immu=res35$CD14_positive_monocyte+res35$CD16_positive_monocyte+res35$macrophage_m0+res35$macrophage_m1+res35$macrophage_m2,
+                       music_ciber=res36$Monocytes+res36$Macrophages.M0+res36$Macrophages.M1+res36$Macrophages.M2,music_TRef = res37$Macrophages.M0,music_BRef = res38$Monocytes,music_quan=res39$Macrophages.M1+res39$Macrophages.M2+res39$Monocytes,music_immu=res40$CD14_positive_monocyte+res40$CD16_positive_monocyte+res40$macrophage_m0+res40$macrophage_m1+res40$macrophage_m2,
+                       bseq_ciber=res41$Monocytes+res41$Macrophages.M0+res41$Macrophages.M1+res41$Macrophages.M2,bseq_TRef = res42$Macrophages.M0,bseq_BRef = res43$Monocytes,bseq_quan=res44$Macrophages.M1+res44$Macrophages.M2+res44$Monocytes,bseq_immu=res45$CD14_positive_monocyte+res45$CD16_positive_monocyte+res45$macrophage_m0+res45$macrophage_m1+res45$macrophage_m2)
+  
+  if(single.cell == TRUE){
+    b_cell_data = cbind(b_cell_data,bayes_bayes = res51$B.cells)
+    
+    cd4_data = cbind(cd4_data,bayes_bayes=res51$CD4..T.cells)
+    
+    cd8_data = cbind(cd8_data,bayes_bayes=res51$CD8..T.cells)
+    
+    treg_data = cbind(treg_data,bayes_bayes=res51$regulatory.T.cells)
+    
+    nk_data = cbind(nk_data,bayes_bayes=res51$Natural.killer.cells)
+    
+    mm_data = cbind(mm_data,bayes_bayes=res51$Macrophages.Monocytes)
+  } 
+  
+   if(light == FALSE){
+        b_cell_data = cbind(ciber_ciber = b_cell_data[,1],ciber_TRef = res2$B.cells.naive,ciber_BRef = res3$Bcells,b_cell_data[,2:24], 
+                            ciber_abs_TRef = res27$B.cells.naive,ciber_abs_BRef = res28$Bcells,b_cell_data[,25:ncol(b_cell_data)],
+                            batman_ciber=res46$B.cells.naive+res46$B.cells.memory,batman_TRef = res47$B.cells.naive,
+                            batman_BRef = res48$Bcells,batman_quan=res49$B.cells,
+                            batman_immu=res50$naive_B_cell+res50$memory_B_cell+res50$plasma_cell)
+        
+        cd4_data = cbind(ciber_ciber = cd4_data[,1],ciber_TRef = res2$T.cells.CD4.naive,ciber_BRef = res3$CD4_Tcells,cd4_data[,2:24], 
+                         ciber_abs_TRef = res27$T.cells.CD4.naive,ciber_abs_BRef = res28$CD4_Tcells,cd4_data[,25:ncol(cd4_data)],
+                         batman_ciber=res46$T.cells.CD4.naive+res46$T.cells.CD4.memory.resting+res46$T.cells.CD4.memory.activated,
+                         batman_TRef = res47$T.cells.CD4.naive,batman_BRef = res48$CD4_Tcells,batman_quan=res49$T.cells.CD4,
+                         batman_immu=res50$CD4_positive_alpha_beta_T_cell)
+        
+        cd8_data = cbind(ciber_ciber = cd8_data[,1],ciber_TRef = res2$B.cells.naive,ciber_BRef = res3$Bcells,cd8_data[,2:24], 
+                         ciber_abs_TRef = res27$B.cells.naive,ciber_abs_BRef = res28$Bcells,cd8_data[,25:ncol(cd8_data)],
+                         batman_ciber=res46$B.cells.naive+res46$B.cells.memory,batman_TRef = res47$B.cells.naive,
+                         batman_BRef = res48$Bcells,batman_quan=res49$B.cells,
+                         batman_immu=res50$naive_B_cell+res50$memory_B_cell+res50$plasma_cell)
+        
+        treg_data = cbind(ciber_ciber = treg_data[,1],ciber_TRef = 0,ciber_BRef = 0,treg_data[,2:24], 
+                          ciber_abs_TRef = 0,ciber_abs_BRef = 0,treg_data[,25:ncol(treg_data)],
+                          batman_ciber=res46$T.cells.regulatory..Tregs.,batman_TRef = 0,
+                          batman_BRef = 0,batman_quan=res49$Tregs,batman_immu=0)
+        
+        nk_data = cbind(ciber_ciber = nk_data[,1],ciber_TRef = res2$NK.cells.activated,ciber_BRef = res3$NKcells,nk_data[,2:24], 
+                        ciber_abs_TRef = res27$NK.cells.activated,ciber_abs_BRef = res28$NKcells,nk_data[,25:ncol(nk_data)],
+                        batman_ciber=res46$NK.cells.resting+res46$NK.cells.activated,batman_TRef = res47$NK.cells.activated,
+                        batman_BRef = res48$NKcells,batman_quan=res49$NK.cells,batman_immu=res50$CD56bright_natural_killer_cell
+                        +res50$CD56dim_natural_killer_cell)
+        
+        mm_data = cbind(ciber_ciber = mm_data[,1],ciber_TRef = res2$Macrophages.M0,ciber_BRef = res3$Monocytes,mm_data[,2:24], 
+                        ciber_abs_TRef = res2$Macrophages.M0,ciber_abs_BRef = res3$Monocytes,mm_data[,25:ncol(mm_data)],
+                        batman_ciber=res46$Monocytes+res46$Macrophages.M0+res46$Macrophages.M1+res46$Macrophages.M2,
+                        batman_TRef = res47$Macrophages.M0,batman_BRef = res48$Monocytes,
+                        batman_quan=res49$Macrophages.M1+res49$Macrophages.M2+res49$Monocytes,
+                        batman_immu=res50$CD14_positive_monocyte+res50$CD16_positive_monocyte+res50$macrophage_m0+res50$macrophage_m1+res50$macrophage_m2)
+      } 
 
-      cd4_data = data.frame(ciber_ciber=res1$T.cells.CD4.naive+res1$T.cells.CD4.memory.resting+res1$T.cells.CD4.memory.activated,ciber_TRef = res2$T.cells.CD4.naive,ciber_BRef = res3$CD4_Tcells,ciber_quan=res4$T.cells.CD4,ciber_immu=res5$CD4_positive_alpha_beta_T_cell,
-                            EPIC_ciber=res6$T.cells.CD4.naive+res6$T.cells.CD4.memory.resting+res6$T.cells.CD4.memory.activated,EPIC_TRef = res7$CD4_Tcells,EPIC_BRef = res8$CD4_Tcells,EPIC_quan=res9$T.cells.CD4,EPIC_immu=res10$CD4_positive_alpha_beta_T_cell,
-                            MCP_ciber=res11$T.cells.CD4.naive+res11$T.cells.CD4.memory.resting+res11$T.cells.CD4.memory.activated,MCP_TRef = res12$T.cells.CD4.naive,MCP_BRef = res13$CD4_Tcells,MCP_quan=res14$T.cells.CD4,MCP_immu=res15$CD4_positive_alpha_beta_T_cell,
-                            quan_ciber=res16$T.cells.CD4.naive+res16$T.cells.CD4.memory.resting+res16$T.cells.CD4.memory.activated,quan_TRef = res17$T.cells.CD4.naive,quan_BRef = res18$CD4_Tcells,quan_quan=res19$T.cells.CD4,quan_immu=res20$CD4_positive_alpha_beta_T_cell,
-                            Decon_ciber=res21$T.cells.CD4.naive+res21$T.cells.CD4.memory.resting+res21$T.cells.CD4.memory.activated,Decon_TRef = res22$T.cells.CD4.naive,Decon_BRef = res23$CD4_Tcells,Decon_quan=res24$T.cells.CD4,Decon_immu=res25$CD4_positive_alpha_beta_T_cell,
-                            ciber_abs_ciber=res26$T.cells.CD4.naive+res26$T.cells.CD4.memory.resting+res26$T.cells.CD4.memory.activated,ciber_abs_TRef = res27$T.cells.CD4.naive,ciber_abs_BRef = res28$CD4_Tcells,ciber_abs_quan=res29$T.cells.CD4,ciber_abs_immu=res30$CD4_positive_alpha_beta_T_cell,
-                            scdc_ciber=res31$T.cells.CD4.naive+res31$T.cells.CD4.memory.resting+res31$T.cells.CD4.memory.activated,scdc_TRef = res32$T.cells.CD4.naive,scdc_BRef = res33$CD4_Tcells,scdc_quan=res34$T.cells.CD4,scdc_immu=res35$CD4_positive_alpha_beta_T_cell,
-                            music_ciber=res36$T.cells.CD4.naive+res36$T.cells.CD4.memory.resting+res36$T.cells.CD4.memory.activated,music_TRef = res37$T.cells.CD4.naive,music_BRef = res38$CD4_Tcells,music_quan=res39$T.cells.CD4,music_immu=res40$CD4_positive_alpha_beta_T_cell,
-                            bseq_ciber=res41$T.cells.CD4.naive+res41$T.cells.CD4.memory.resting+res41$T.cells.CD4.memory.activated,bseq_TRef = res42$T.cells.CD4.naive,bseq_BRef = res43$CD4_Tcells,bseq_quan=res44$T.cells.CD4,bseq_immu=res45$CD4_positive_alpha_beta_T_cell,
-                            batman_ciber=res46$T.cells.CD4.naive+res46$T.cells.CD4.memory.resting+res46$T.cells.CD4.memory.activated,batman_TRef = res47$T.cells.CD4.naive,batman_BRef = res48$CD4_Tcells,batman_quan=res49$T.cells.CD4,batman_immu=res50$CD4_positive_alpha_beta_T_cell)
-
-      cd8_data = data.frame(ciber_ciber=res1$T.cells.CD8,ciber_TRef = res2$CD8_T.cells,ciber_BRef = res3$CD8_Tcells,ciber_quan=res4$T.cells.CD8,ciber_immu=res5$CD8_positive_alpha_beta_T_cell,
-                            EPIC_ciber=res6$T.cells.CD8,EPIC_TRef = res7$CD8_Tcells,EPIC_BRef = res8$CD8_Tcells,EPIC_quan=res9$T.cells.CD8,EPIC_immu=res10$CD8_positive_alpha_beta_T_cell,
-                            MCP_ciber=res11$T.cells.CD8,MCP_TRef = res12$CD8_T.cells,MCP_BRef = res13$CD8_Tcells,MCP_quan=res14$T.cells.CD8,MCP_immu=res15$CD8_positive_alpha_beta_T_cell,
-                            quan_ciber=res16$T.cells.CD8,quan_TRef = res17$CD8_T.cells,quan_BRef = res18$CD8_Tcells,quan_quan=res19$T.cells.CD8,quan_immu=res20$CD8_positive_alpha_beta_T_cell,
-                            Decon_ciber=res21$T.cells.CD8,Decon_TRef = res22$CD8_T.cells,Decon_BRef = res23$CD8_Tcells,Decon_quan=res24$T.cells.CD8,Decon_immu=res25$CD8_positive_alpha_beta_T_cell,
-                            ciber_abs_ciber=res26$T.cells.CD8,ciber_abs_TRef = res27$CD8_T.cells,ciber_abs_BRef = res28$CD8_Tcells,ciber_abs_quan=res29$T.cells.CD8,ciber_abs_immu=res30$CD8_positive_alpha_beta_T_cell,
-                            scdc_ciber=res31$T.cells.CD8,scdc_TRef = res32$CD8_T.cells,scdc_BRef = res33$CD8_Tcells,scdc_quan=res34$T.cells.CD8,scdc_immu=res35$CD8_positive_alpha_beta_T_cell,
-                            music_ciber=res36$T.cells.CD8,music_TRef = res37$CD8_T.cells,music_BRef = res38$CD8_Tcells,music_quan=res39$T.cells.CD8,music_immu=res40$CD8_positive_alpha_beta_T_cell,
-                            bseq_ciber=res41$T.cells.CD8,bseq_TRef = res42$CD8_T.cells,bseq_BRef = res43$CD8_Tcells,bseq_quan=res44$T.cells.CD8,bseq_immu=res45$CD8_positive_alpha_beta_T_cell,
-                            batman_ciber=res46$T.cells.CD8,batman_TRef = res47$CD8_T.cells,batman_BRef = res48$CD8_Tcells,batman_quan=res49$T.cells.CD8,batman_immu=res50$CD8_positive_alpha_beta_T_cell)
-
-      treg_data = data.frame(ciber_ciber=res1$T.cells.regulatory..Tregs.,ciber_TRef = 0,ciber_BRef = 0,ciber_quan=res4$Tregs,ciber_immu=0,
-                             EPIC_ciber=res6$T.cells.regulatory..Tregs.,EPIC_TRef = 0,EPIC_BRef = 0,EPIC_quan=res9$Tregs,EPIC_immu=0,
-                             MCP_ciber=res11$T.cells.regulatory..Tregs.,MCP_TRef = 0,MCP_BRef = 0,MCP_quan=res14$Tregs,MCP_immu=0,
-                             quan_ciber=res16$T.cells.regulatory..Tregs.,quan_TRef = 0,quan_BRef = 0,quan_quan=res19$Tregs,quan_immu=0,
-                             Decon_ciber=res21$T.cells.regulatory..Tregs.,Decon_TRef = 0,Decon_BRef = 0,Decon_quan=res24$Tregs,Decon_immu=0,
-                             ciber_abs_ciber=res26$T.cells.regulatory..Tregs.,ciber_abs_TRef = 0,ciber_abs_BRef = 0,ciber_abs_quan=res29$Tregs,ciber_abs_immu=0,
-                             scdc_ciber=res31$T.cells.regulatory..Tregs.,scdc_TRef = 0,scdc_BRef = 0,scdc_quan=res34$Tregs,scdc_immu=0,
-                             music_ciber=res36$T.cells.regulatory..Tregs.,music_TRef = 0,music_BRef = 0,music_quan=res39$Tregs,music_immu=0,
-                             bseq_ciber=res41$T.cells.regulatory..Tregs.,bseq_TRef = 0,bseq_BRef = 0,bseq_quan=res44$Tregs,bseq_immu=0,
-                             batman_ciber=res46$T.cells.regulatory..Tregs.,batman_TRef = 0,batman_BRef = 0,batman_quan=res49$Tregs,batman_immu=0)
-
-      nk_data = data.frame(ciber_ciber=res1$NK.cells.resting+res1$NK.cells.activated,ciber_TRef = res2$NK.cells.activated,ciber_BRef = res3$NKcells,ciber_quan=res4$NK.cells,ciber_immu=res5$CD56bright_natural_killer_cell+res5$CD56dim_natural_killer_cell,
-                           EPIC_ciber=res6$NK.cells.resting+res6$NK.cells.activated,EPIC_TRef = res7$NKcells,EPIC_BRef = res8$NKcells,EPIC_quan=res9$NK.cells,EPIC_immu=res10$CD56bright_natural_killer_cell+res10$CD56dim_natural_killer_cell,
-                           MCP_ciber=res11$NK.cells.resting+res11$NK.cells.activated,MCP_TRef = res12$NK.cells.activated,MCP_BRef = res13$NKcells,MCP_quan=res14$NK.cells,MCP_immu=res15$CD56bright_natural_killer_cell+res15$CD56dim_natural_killer_cell,
-                           quan_ciber=res16$NK.cells.resting+res16$NK.cells.activated,quan_TRef = res17$NK.cells.activated,quan_BRef = res18$NKcells,quan_quan=res19$NK.cells,quan_immu=res20$CD56bright_natural_killer_cell+res20$CD56dim_natural_killer_cell,
-                           Decon_ciber=res21$NK.cells.resting+res21$NK.cells.activated,Decon_TRef = res22$NK.cells.activated,Decon_BRef = res23$NKcells,Decon_quan=res24$NK.cells,Decon_immu=res25$CD56bright_natural_killer_cell+res25$CD56dim_natural_killer_cell,
-                           ciber_abs_ciber=res26$NK.cells.resting+res26$NK.cells.activated,ciber_abs_TRef = res27$NK.cells.activated,ciber_abs_BRef = res28$NKcells,ciber_abs_quan=res29$NK.cells,ciber_abs_immu=res30$CD56bright_natural_killer_cell+res30$CD56dim_natural_killer_cell,
-                           scdc_ciber=res31$NK.cells.resting+res31$NK.cells.activated,scdc_TRef = res32$NK.cells.activated,scdc_BRef = res33$NKcells,scdc_quan=res34$NK.cells,scdc_immu=res35$CD56bright_natural_killer_cell+res35$CD56dim_natural_killer_cell,
-                           music_ciber=res36$NK.cells.resting+res36$NK.cells.activated,music_TRef = res37$NK.cells.activated,music_BRef = res38$NKcells,music_quan=res39$NK.cells,music_immu=res40$CD56bright_natural_killer_cell+res40$CD56dim_natural_killer_cell,
-                           bseq_ciber=res41$NK.cells.resting+res41$NK.cells.activated,bseq_TRef = res42$NK.cells.activated,bseq_BRef = res43$NKcells,bseq_quan=res44$NK.cells,bseq_immu=res45$CD56bright_natural_killer_cell+res45$CD56dim_natural_killer_cell,
-                           batman_ciber=res46$NK.cells.resting+res46$NK.cells.activated,batman_TRef = res47$NK.cells.activated,batman_BRef = res48$NKcells,batman_quan=res49$NK.cells,batman_immu=res50$CD56bright_natural_killer_cell+res50$CD56dim_natural_killer_cell)
-
-      mm_data = data.frame(ciber_ciber=res1$Monocytes+res1$Macrophages.M0+res1$Macrophages.M1+res1$Macrophages.M2,ciber_TRef = res2$Macrophages.M0,ciber_BRef = res3$Monocytes,ciber_quan=res4$Macrophages.M1+res4$Macrophages.M2+res4$Monocytes,ciber_immu=res5$CD14_positive_monocyte+res5$CD16_positive_monocyte+res5$macrophage_m0+res5$macrophage_m1+res5$macrophage_m2,
-                           EPIC_ciber=res6$Monocytes+res6$Macrophages.M0+res6$Macrophages.M1+res6$Macrophages.M2,EPIC_TRef = res7$Macrophages,EPIC_BRef = res8$Monocytes,EPIC_quan=res9$Macrophages.M1+res9$Macrophages.M2+res9$Monocytes,EPIC_immu=res10$CD14_positive_monocyte+res10$CD16_positive_monocyte+res10$macrophage_m0+res10$macrophage_m1+res10$macrophage_m2,
-                           MCP_ciber=res11$Monocytes+res11$Macrophages.M0+res11$Macrophages.M1+res11$Macrophages.M2,MCP_TRef = res12$Macrophages.M0,MCP_BRef = res13$Monocytes,MCP_quan=res14$Macrophages.M1+res14$Macrophages.M2+res14$Monocytes,MCP_immu=res15$CD14_positive_monocyte+res15$CD16_positive_monocyte+res15$macrophage_m0+res15$macrophage_m1+res15$macrophage_m2,
-                           quan_ciber=res16$Monocytes+res16$Macrophages.M0+res16$Macrophages.M1+res16$Macrophages.M2,quan_TRef = res17$Macrophages.M0,quan_BRef = res18$Monocytes,quan_quan=res19$Macrophages.M1+res19$Macrophages.M2+res19$Monocytes,quan_immu=res20$CD14_positive_monocyte+res20$CD16_positive_monocyte+res20$macrophage_m0+res20$macrophage_m1+res20$macrophage_m2,
-                           Decon_ciber=res21$Monocytes+res21$Macrophages.M0+res21$Macrophages.M1+res21$Macrophages.M2,Decon_TRef = res22$Macrophages.M0,Decon_BRef = res23$Monocytes,Decon_quan=res24$Macrophages.M1+res24$Macrophages.M2+res24$Monocytes,Decon_immu=res25$CD14_positive_monocyte+res25$CD16_positive_monocyte+res25$macrophage_m0+res25$macrophage_m1+res25$macrophage_m2,
-                           ciber_abs_ciber=res26$Monocytes+res26$Macrophages.M0+res26$Macrophages.M1+res26$Macrophages.M2,ciber_abs_TRef = res27$Macrophages.M0,ciber_abs_BRef = res28$Monocytes,ciber_abs_quan=res29$Macrophages.M1+res29$Macrophages.M2+res29$Monocytes,ciber_abs_immu=res30$CD14_positive_monocyte+res30$CD16_positive_monocyte+res30$macrophage_m0+res30$macrophage_m1+res30$macrophage_m2,
-                           scdc_ciber=res31$Monocytes+res31$Macrophages.M0+res31$Macrophages.M1+res31$Macrophages.M2,scdc_TRef = res32$Macrophages.M0,scdc_BRef = res33$Monocytes,scdc_quan=res34$Macrophages.M1+res34$Macrophages.M2+res34$Monocytes,scdc_immu=res35$CD14_positive_monocyte+res35$CD16_positive_monocyte+res35$macrophage_m0+res35$macrophage_m1+res35$macrophage_m2,
-                           music_ciber=res36$Monocytes+res36$Macrophages.M0+res36$Macrophages.M1+res36$Macrophages.M2,music_TRef = res37$Macrophages.M0,music_BRef = res38$Monocytes,music_quan=res39$Macrophages.M1+res39$Macrophages.M2+res39$Monocytes,music_immu=res40$CD14_positive_monocyte+res40$CD16_positive_monocyte+res40$macrophage_m0+res40$macrophage_m1+res40$macrophage_m2,
-                           bseq_ciber=res41$Monocytes+res41$Macrophages.M0+res41$Macrophages.M1+res41$Macrophages.M2,bseq_TRef = res42$Macrophages.M0,bseq_BRef = res43$Monocytes,bseq_quan=res44$Macrophages.M1+res44$Macrophages.M2+res44$Monocytes,bseq_immu=res45$CD14_positive_monocyte+res45$CD16_positive_monocyte+res45$macrophage_m0+res45$macrophage_m1+res45$macrophage_m2,
-                           batman_ciber=res46$Monocytes+res46$Macrophages.M0+res46$Macrophages.M1+res46$Macrophages.M2,batman_TRef = res47$Macrophages.M0,batman_BRef = res48$Monocytes,batman_quan=res49$Macrophages.M1+res49$Macrophages.M2+res49$Monocytes,batman_immu=res50$CD14_positive_monocyte+res50$CD16_positive_monocyte+res50$macrophage_m0+res50$macrophage_m1+res50$macrophage_m2)
-      } else {
-        b_cell_data = data.frame(ciber_ciber=res1$B.cells.naive+res1$B.cells.memory+res1$Plasma.cells,ciber_quan=res4$B.cells,ciber_immu=res5$naive_B_cell+res5$memory_B_cell+res5$plasma_cell,
-                                 EPIC_ciber=res6$B.cells.naive+res6$B.cells.memory+res6$Plasma.cells,EPIC_TRef = res7$Bcells,EPIC_BRef = res8$Bcells,EPIC_quan=res9$B.cells,EPIC_immu=res10$naive_B_cell+res10$memory_B_cell+res10$plasma_cell,
-                                 MCP_ciber=res11$B.cells.naive+res11$B.cells.memory+res11$Plasma.cells,MCP_TRef = res12$B.cells.naive,MCP_BRef = res13$Bcells,MCP_quan=res14$B.cells,MCP_immu=res15$naive_B_cell+res15$memory_B_cell+res15$plasma_cell,
-                                 quan_ciber=res16$B.cells.naive+res16$B.cells.memory+res16$Plasma.cells,quan_TRef = res17$B.cells.naive,quan_BRef = res18$Bcells,quan_quan=res19$B.cells,quan_immu=res20$naive_B_cell+res20$memory_B_cell+res20$plasma_cell,
-                                 Decon_ciber=res21$B.cells.naive+res21$B.cells.memory+res21$Plasma.cells,Decon_TRef = res22$B.cells.naive,Decon_BRef = res23$Bcells,Decon_quan=res24$B.cells,Decon_immu=res25$naive_B_cell+res25$memory_B_cell+res25$plasma_cell,
-                                 ciber_abs_ciber=res26$B.cells.naive+res26$B.cells.memory+res26$Plasma.cells,ciber_abs_quan=res29$B.cells,ciber_abs_immu=res30$naive_B_cell+res30$memory_B_cell+res30$plasma_cell,
-                                 scdc_ciber=res31$B.cells.naive+res31$B.cells.memory+res31$Plasma.cells,scdc_TRef = res32$B.cells.naive,scdc_BRef = res33$Bcells,scdc_quan=res34$B.cells,scdc_immu=res35$naive_B_cell+res35$memory_B_cell+res35$plasma_cell,
-                                 music_ciber=res36$B.cells.naive+res36$B.cells.memory+res36$Plasma.cells,music_TRef = res37$B.cells.naive,music_BRef = res38$Bcells,music_quan=res39$B.cells,music_immu=res40$naive_B_cell+res40$memory_B_cell+res40$plasma_cell,
-                                 bseq_ciber=res41$B.cells.naive+res41$B.cells.memory+res41$Plasma.cells,bseq_TRef = res42$B.cells.naive,bseq_BRef = res43$Bcells,bseq_quan=res44$B.cells,bseq_immu=res45$naive_B_cell+res45$memory_B_cell+res45$plasma_cell)
-
-
-        cd4_data = data.frame(ciber_ciber=res1$T.cells.CD4.naive+res1$T.cells.CD4.memory.resting+res1$T.cells.CD4.memory.activated,ciber_quan=res4$T.cells.CD4,ciber_immu=res5$CD4_positive_alpha_beta_T_cell,
-                              EPIC_ciber=res6$T.cells.CD4.naive+res6$T.cells.CD4.memory.resting+res6$T.cells.CD4.memory.activated,EPIC_TRef = res7$CD4_Tcells,EPIC_BRef = res8$CD4_Tcells,EPIC_quan=res9$T.cells.CD4,EPIC_immu=res10$CD4_positive_alpha_beta_T_cell,
-                              MCP_ciber=res11$T.cells.CD4.naive+res11$T.cells.CD4.memory.resting+res11$T.cells.CD4.memory.activated,MCP_TRef = res12$T.cells.CD4.naive,MCP_BRef = res13$CD4_Tcells,MCP_quan=res14$T.cells.CD4,MCP_immu=res15$CD4_positive_alpha_beta_T_cell,
-                              quan_ciber=res16$T.cells.CD4.naive+res16$T.cells.CD4.memory.resting+res16$T.cells.CD4.memory.activated,quan_TRef = res17$T.cells.CD4.naive,quan_BRef = res18$CD4_Tcells,quan_quan=res19$T.cells.CD4,quan_immu=res20$CD4_positive_alpha_beta_T_cell,
-                              Decon_ciber=res21$T.cells.CD4.naive+res21$T.cells.CD4.memory.resting+res21$T.cells.CD4.memory.activated,Decon_TRef = res22$T.cells.CD4.naive,Decon_BRef = res23$CD4_Tcells,Decon_quan=res24$T.cells.CD4,Decon_immu=res25$CD4_positive_alpha_beta_T_cell,
-                              ciber_abs_ciber=res26$T.cells.CD4.naive+res26$T.cells.CD4.memory.resting+res26$T.cells.CD4.memory.activated,ciber_abs_quan=res29$T.cells.CD4,ciber_abs_immu=res30$CD4_positive_alpha_beta_T_cell,
-                              scdc_ciber=res31$T.cells.CD4.naive+res31$T.cells.CD4.memory.resting+res31$T.cells.CD4.memory.activated,scdc_TRef = res32$T.cells.CD4.naive,scdc_BRef = res33$CD4_Tcells,scdc_quan=res34$T.cells.CD4,scdc_immu=res35$CD4_positive_alpha_beta_T_cell,
-                              music_ciber=res36$T.cells.CD4.naive+res36$T.cells.CD4.memory.resting+res36$T.cells.CD4.memory.activated,music_TRef = res37$T.cells.CD4.naive,music_BRef = res38$CD4_Tcells,music_quan=res39$T.cells.CD4,music_immu=res40$CD4_positive_alpha_beta_T_cell,
-                              bseq_ciber=res41$T.cells.CD4.naive+res41$T.cells.CD4.memory.resting+res41$T.cells.CD4.memory.activated,bseq_TRef = res42$T.cells.CD4.naive,bseq_BRef = res43$CD4_Tcells,bseq_quan=res44$T.cells.CD4,bseq_immu=res45$CD4_positive_alpha_beta_T_cell)
-
-        cd8_data = data.frame(ciber_ciber=res1$T.cells.CD8,ciber_quan=res4$T.cells.CD8,ciber_immu=res5$CD8_positive_alpha_beta_T_cell,
-                              EPIC_ciber=res6$T.cells.CD8,EPIC_TRef = res7$CD8_Tcells,EPIC_BRef = res8$CD8_Tcells,EPIC_quan=res9$T.cells.CD8,EPIC_immu=res10$CD8_positive_alpha_beta_T_cell,
-                              MCP_ciber=res11$T.cells.CD8,MCP_TRef = res12$CD8_T.cells,MCP_BRef = res13$CD8_Tcells,MCP_quan=res14$T.cells.CD8,MCP_immu=res15$CD8_positive_alpha_beta_T_cell,
-                              quan_ciber=res16$T.cells.CD8,quan_TRef = res17$CD8_T.cells,quan_BRef = res18$CD8_Tcells,quan_quan=res19$T.cells.CD8,quan_immu=res20$CD8_positive_alpha_beta_T_cell,
-                              Decon_ciber=res21$T.cells.CD8,Decon_TRef = res22$CD8_T.cells,Decon_BRef = res23$CD8_Tcells,Decon_quan=res24$T.cells.CD8,Decon_immu=res25$CD8_positive_alpha_beta_T_cell,
-                              ciber_abs_ciber=res26$T.cells.CD8,ciber_abs_quan=res29$T.cells.CD8,ciber_abs_immu=res30$CD8_positive_alpha_beta_T_cell,
-                              scdc_ciber=res31$T.cells.CD8,scdc_TRef = res32$CD8_T.cells,scdc_BRef = res33$CD8_Tcells,scdc_quan=res34$T.cells.CD8,scdc_immu=res35$CD8_positive_alpha_beta_T_cell,
-                              music_ciber=res36$T.cells.CD8,music_TRef = res37$CD8_T.cells,music_BRef = res38$CD8_Tcells,music_quan=res39$T.cells.CD8,music_immu=res40$CD8_positive_alpha_beta_T_cell,
-                              bseq_ciber=res41$T.cells.CD8,bseq_TRef = res42$CD8_T.cells,bseq_BRef = res43$CD8_Tcells,bseq_quan=res44$T.cells.CD8,bseq_immu=res45$CD8_positive_alpha_beta_T_cell)
-
-        treg_data = data.frame(ciber_ciber=res1$T.cells.regulatory..Tregs.,ciber_quan=res4$Tregs,ciber_immu=0,
-                               EPIC_ciber=res6$T.cells.regulatory..Tregs.,EPIC_TRef = 0,EPIC_BRef = 0,EPIC_quan=res9$Tregs,EPIC_immu=0,
-                               MCP_ciber=res11$T.cells.regulatory..Tregs.,MCP_TRef = 0,MCP_BRef = 0,MCP_quan=res14$Tregs,MCP_immu=0,
-                               quan_ciber=res16$T.cells.regulatory..Tregs.,quan_TRef = 0,quan_BRef = 0,quan_quan=res19$Tregs,quan_immu=0,
-                               Decon_ciber=res21$T.cells.regulatory..Tregs.,Decon_TRef = 0,Decon_BRef = 0,Decon_quan=res24$Tregs,Decon_immu=0,
-                               ciber_abs_ciber=res26$T.cells.regulatory..Tregs.,ciber_abs_quan=res29$Tregs,ciber_abs_immu=0,
-                               scdc_ciber=res31$T.cells.regulatory..Tregs.,scdc_TRef = 0,scdc_BRef = 0,scdc_quan=res34$Tregs,scdc_immu=0,
-                               music_ciber=res36$T.cells.regulatory..Tregs.,music_TRef = 0,music_BRef = 0,music_quan=res39$Tregs,music_immu=0,
-                               bseq_ciber=res41$T.cells.regulatory..Tregs.,bseq_TRef = 0,bseq_BRef = 0,bseq_quan=res44$Tregs,bseq_immu=0)
-
-        nk_data = data.frame(ciber_ciber=res1$NK.cells.resting+res1$NK.cells.activated,ciber_quan=res4$NK.cells,ciber_immu=res5$CD56bright_natural_killer_cell+res5$CD56dim_natural_killer_cell,
-                             EPIC_ciber=res6$NK.cells.resting+res6$NK.cells.activated,EPIC_TRef = res7$NKcells,EPIC_BRef = res8$NKcells,EPIC_quan=res9$NK.cells,EPIC_immu=res10$CD56bright_natural_killer_cell+res10$CD56dim_natural_killer_cell,
-                             MCP_ciber=res11$NK.cells.resting+res11$NK.cells.activated,MCP_TRef = res12$NK.cells.activated,MCP_BRef = res13$NKcells,MCP_quan=res14$NK.cells,MCP_immu=res15$CD56bright_natural_killer_cell+res15$CD56dim_natural_killer_cell,
-                             quan_ciber=res16$NK.cells.resting+res16$NK.cells.activated,quan_TRef = res17$NK.cells.activated,quan_BRef = res18$NKcells,quan_quan=res19$NK.cells,quan_immu=res20$CD56bright_natural_killer_cell+res20$CD56dim_natural_killer_cell,
-                             Decon_ciber=res21$NK.cells.resting+res21$NK.cells.activated,Decon_TRef = res22$NK.cells.activated,Decon_BRef = res23$NKcells,Decon_quan=res24$NK.cells,Decon_immu=res25$CD56bright_natural_killer_cell+res25$CD56dim_natural_killer_cell,
-                             ciber_abs_ciber=res26$NK.cells.resting+res26$NK.cells.activated,ciber_abs_quan=res29$NK.cells,ciber_abs_immu=res30$CD56bright_natural_killer_cell+res30$CD56dim_natural_killer_cell,
-                             scdc_ciber=res31$NK.cells.resting+res31$NK.cells.activated,scdc_TRef = res32$NK.cells.activated,scdc_BRef = res33$NKcells,scdc_quan=res34$NK.cells,scdc_immu=res35$CD56bright_natural_killer_cell+res35$CD56dim_natural_killer_cell,
-                             music_ciber=res36$NK.cells.resting+res36$NK.cells.activated,music_TRef = res37$NK.cells.activated,music_BRef = res38$NKcells,music_quan=res39$NK.cells,music_immu=res40$CD56bright_natural_killer_cell+res40$CD56dim_natural_killer_cell,
-                             bseq_ciber=res41$NK.cells.resting+res41$NK.cells.activated,bseq_TRef = res42$NK.cells.activated,bseq_BRef = res43$NKcells,bseq_quan=res44$NK.cells,bseq_immu=res45$CD56bright_natural_killer_cell+res45$CD56dim_natural_killer_cell)
-
-        mm_data = data.frame(ciber_ciber=res1$Monocytes+res1$Macrophages.M0+res1$Macrophages.M1+res1$Macrophages.M2,ciber_quan=res4$Macrophages.M1+res4$Macrophages.M2+res4$Monocytes,ciber_immu=res5$CD14_positive_monocyte+res5$CD16_positive_monocyte+res5$macrophage_m0+res5$macrophage_m1+res5$macrophage_m2,
-                             EPIC_ciber=res6$Monocytes+res6$Macrophages.M0+res6$Macrophages.M1+res6$Macrophages.M2,EPIC_TRef = res7$Macrophages,EPIC_BRef = res8$Monocytes,EPIC_quan=res9$Macrophages.M1+res9$Macrophages.M2+res9$Monocytes,EPIC_immu=res10$CD14_positive_monocyte+res10$CD16_positive_monocyte+res10$macrophage_m0+res10$macrophage_m1+res10$macrophage_m2,
-                             MCP_ciber=res11$Monocytes+res11$Macrophages.M0+res11$Macrophages.M1+res11$Macrophages.M2,MCP_TRef = res12$Macrophages.M0,MCP_BRef = res13$Monocytes,MCP_quan=res14$Macrophages.M1+res14$Macrophages.M2+res14$Monocytes,MCP_immu=res15$CD14_positive_monocyte+res15$CD16_positive_monocyte+res15$macrophage_m0+res15$macrophage_m1+res15$macrophage_m2,
-                             quan_ciber=res16$Monocytes+res16$Macrophages.M0+res16$Macrophages.M1+res16$Macrophages.M2,quan_TRef = res17$Macrophages.M0,quan_BRef = res18$Monocytes,quan_quan=res19$Macrophages.M1+res19$Macrophages.M2+res19$Monocytes,quan_immu=res20$CD14_positive_monocyte+res20$CD16_positive_monocyte+res20$macrophage_m0+res20$macrophage_m1+res20$macrophage_m2,
-                             Decon_ciber=res21$Monocytes+res21$Macrophages.M0+res21$Macrophages.M1+res21$Macrophages.M2,Decon_TRef = res22$Macrophages.M0,Decon_BRef = res23$Monocytes,Decon_quan=res24$Macrophages.M1+res24$Macrophages.M2+res24$Monocytes,Decon_immu=res25$CD14_positive_monocyte+res25$CD16_positive_monocyte+res25$macrophage_m0+res25$macrophage_m1+res25$macrophage_m2,
-                             ciber_abs_ciber=res26$Monocytes+res26$Macrophages.M0+res26$Macrophages.M1+res26$Macrophages.M2,ciber_abs_quan=res29$Macrophages.M1+res29$Macrophages.M2+res29$Monocytes,ciber_abs_immu=res30$CD14_positive_monocyte+res30$CD16_positive_monocyte+res30$macrophage_m0+res30$macrophage_m1+res30$macrophage_m2,
-                             scdc_ciber=res31$Monocytes+res31$Macrophages.M0+res31$Macrophages.M1+res31$Macrophages.M2,scdc_TRef = res32$Macrophages.M0,scdc_BRef = res33$Monocytes,scdc_quan=res34$Macrophages.M1+res34$Macrophages.M2+res34$Monocytes,scdc_immu=res35$CD14_positive_monocyte+res35$CD16_positive_monocyte+res35$macrophage_m0+res35$macrophage_m1+res35$macrophage_m2,
-                             music_ciber=res36$Monocytes+res36$Macrophages.M0+res36$Macrophages.M1+res36$Macrophages.M2,music_TRef = res37$Macrophages.M0,music_BRef = res38$Monocytes,music_quan=res39$Macrophages.M1+res39$Macrophages.M2+res39$Monocytes,music_immu=res40$CD14_positive_monocyte+res40$CD16_positive_monocyte+res40$macrophage_m0+res40$macrophage_m1+res40$macrophage_m2,
-                             bseq_ciber=res41$Monocytes+res41$Macrophages.M0+res41$Macrophages.M1+res41$Macrophages.M2,bseq_TRef = res42$Macrophages.M0,bseq_BRef = res43$Monocytes,bseq_quan=res44$Macrophages.M1+res44$Macrophages.M2+res44$Monocytes,bseq_immu=res45$CD14_positive_monocyte+res45$CD16_positive_monocyte+res45$macrophage_m0+res45$macrophage_m1+res45$macrophage_m2)
-        }
-
+  
   #b_cell
   b_cell_cor = cor(b_cell_data)
   b_cell_cor[is.na(b_cell_cor)]=0
@@ -374,136 +361,119 @@ DECEPTICON_output <- function(light = FALSE){
     res49 = vegan::decostand(res49,MARGIN = 1,"total")
     res50 = vegan::decostand(res50,MARGIN = 1,"total")
   }
-  #B cell
-  if(light == FALSE){
-    b_cell_data = data.frame(ciber_ciber=res1$B.cells.naive+res1$B.cells.memory+res1$Plasma.cells,ciber_TRef = res2$B.cells.naive,ciber_BRef = res3$Bcells,ciber_quan=res4$B.cells,ciber_immu=res5$naive_B_cell+res5$memory_B_cell+res5$plasma_cell,
-                             EPIC_ciber=res6$B.cells.naive+res6$B.cells.memory+res6$Plasma.cells,EPIC_TRef = res7$Bcells,EPIC_BRef = res8$Bcells,EPIC_quan=res9$B.cells,EPIC_immu=res10$naive_B_cell+res10$memory_B_cell+res10$plasma_cell,
-                             MCP_ciber=res11$B.cells.naive+res11$B.cells.memory+res11$Plasma.cells,MCP_TRef = res12$B.cells.naive,MCP_BRef = res13$Bcells,MCP_quan=res14$B.cells,MCP_immu=res15$naive_B_cell+res15$memory_B_cell+res15$plasma_cell,
-                             quan_ciber=res16$B.cells.naive+res16$B.cells.memory+res16$Plasma.cells,quan_TRef = res17$B.cells.naive,quan_BRef = res18$Bcells,quan_quan=res19$B.cells,quan_immu=res20$naive_B_cell+res20$memory_B_cell+res20$plasma_cell,
-                             Decon_ciber=res21$B.cells.naive+res21$B.cells.memory+res21$Plasma.cells,Decon_TRef = res22$B.cells.naive,Decon_BRef = res23$Bcells,Decon_quan=res24$B.cells,Decon_immu=res25$naive_B_cell+res25$memory_B_cell+res25$plasma_cell,
-                             ciber_abs_ciber=res26$B.cells.naive+res26$B.cells.memory+res26$Plasma.cells,ciber_abs_TRef = res27$B.cells.naive,ciber_abs_BRef = res28$Bcells,ciber_abs_quan=res29$B.cells,ciber_abs_immu=res30$naive_B_cell+res30$memory_B_cell+res30$plasma_cell,
-                             scdc_ciber=res31$B.cells.naive+res31$B.cells.memory+res31$Plasma.cells,scdc_TRef = res32$B.cells.naive,scdc_BRef = res33$Bcells,scdc_quan=res34$B.cells,scdc_immu=res35$naive_B_cell+res35$memory_B_cell+res35$plasma_cell,
-                             music_ciber=res36$B.cells.naive+res36$B.cells.memory+res36$Plasma.cells,music_TRef = res37$B.cells.naive,music_BRef = res38$Bcells,music_quan=res39$B.cells,music_immu=res40$naive_B_cell+res40$memory_B_cell+res40$plasma_cell,
-                             bseq_ciber=res41$B.cells.naive+res41$B.cells.memory+res41$Plasma.cells,bseq_TRef = res42$B.cells.naive,bseq_BRef = res43$Bcells,bseq_quan=res44$B.cells,bseq_immu=res45$naive_B_cell+res45$memory_B_cell+res45$plasma_cell,
-                             batman_ciber=res46$B.cells.naive+res46$B.cells.memory,batman_TRef = res47$B.cells.naive,batman_BRef = res48$Bcells,batman_quan=res49$B.cells,batman_immu=res50$naive_B_cell+res50$memory_B_cell+res50$plasma_cell)
 
-    cd4_data = data.frame(ciber_ciber=res1$T.cells.CD4.naive+res1$T.cells.CD4.memory.resting+res1$T.cells.CD4.memory.activated,ciber_TRef = res2$T.cells.CD4.naive,ciber_BRef = res3$CD4_Tcells,ciber_quan=res4$T.cells.CD4,ciber_immu=res5$CD4_positive_alpha_beta_T_cell,
-                          EPIC_ciber=res6$T.cells.CD4.naive+res6$T.cells.CD4.memory.resting+res6$T.cells.CD4.memory.activated,EPIC_TRef = res7$CD4_Tcells,EPIC_BRef = res8$CD4_Tcells,EPIC_quan=res9$T.cells.CD4,EPIC_immu=res10$CD4_positive_alpha_beta_T_cell,
-                          MCP_ciber=res11$T.cells.CD4.naive+res11$T.cells.CD4.memory.resting+res11$T.cells.CD4.memory.activated,MCP_TRef = res12$T.cells.CD4.naive,MCP_BRef = res13$CD4_Tcells,MCP_quan=res14$T.cells.CD4,MCP_immu=res15$CD4_positive_alpha_beta_T_cell,
-                          quan_ciber=res16$T.cells.CD4.naive+res16$T.cells.CD4.memory.resting+res16$T.cells.CD4.memory.activated,quan_TRef = res17$T.cells.CD4.naive,quan_BRef = res18$CD4_Tcells,quan_quan=res19$T.cells.CD4,quan_immu=res20$CD4_positive_alpha_beta_T_cell,
-                          Decon_ciber=res21$T.cells.CD4.naive+res21$T.cells.CD4.memory.resting+res21$T.cells.CD4.memory.activated,Decon_TRef = res22$T.cells.CD4.naive,Decon_BRef = res23$CD4_Tcells,Decon_quan=res24$T.cells.CD4,Decon_immu=res25$CD4_positive_alpha_beta_T_cell,
-                          ciber_abs_ciber=res26$T.cells.CD4.naive+res26$T.cells.CD4.memory.resting+res26$T.cells.CD4.memory.activated,ciber_abs_TRef = res27$T.cells.CD4.naive,ciber_abs_BRef = res28$CD4_Tcells,ciber_abs_quan=res29$T.cells.CD4,ciber_abs_immu=res30$CD4_positive_alpha_beta_T_cell,
-                          scdc_ciber=res31$T.cells.CD4.naive+res31$T.cells.CD4.memory.resting+res31$T.cells.CD4.memory.activated,scdc_TRef = res32$T.cells.CD4.naive,scdc_BRef = res33$CD4_Tcells,scdc_quan=res34$T.cells.CD4,scdc_immu=res35$CD4_positive_alpha_beta_T_cell,
-                          music_ciber=res36$T.cells.CD4.naive+res36$T.cells.CD4.memory.resting+res36$T.cells.CD4.memory.activated,music_TRef = res37$T.cells.CD4.naive,music_BRef = res38$CD4_Tcells,music_quan=res39$T.cells.CD4,music_immu=res40$CD4_positive_alpha_beta_T_cell,
-                          bseq_ciber=res41$T.cells.CD4.naive+res41$T.cells.CD4.memory.resting+res41$T.cells.CD4.memory.activated,bseq_TRef = res42$T.cells.CD4.naive,bseq_BRef = res43$CD4_Tcells,bseq_quan=res44$T.cells.CD4,bseq_immu=res45$CD4_positive_alpha_beta_T_cell,
-                          batman_ciber=res46$T.cells.CD4.naive+res46$T.cells.CD4.memory.resting+res46$T.cells.CD4.memory.activated,batman_TRef = res47$T.cells.CD4.naive,batman_BRef = res48$CD4_Tcells,batman_quan=res49$T.cells.CD4,batman_immu=res50$CD4_positive_alpha_beta_T_cell)
-
-    cd8_data = data.frame(ciber_ciber=res1$T.cells.CD8,ciber_TRef = res2$CD8_T.cells,ciber_BRef = res3$CD8_Tcells,ciber_quan=res4$T.cells.CD8,ciber_immu=res5$CD8_positive_alpha_beta_T_cell,
-                          EPIC_ciber=res6$T.cells.CD8,EPIC_TRef = res7$CD8_Tcells,EPIC_BRef = res8$CD8_Tcells,EPIC_quan=res9$T.cells.CD8,EPIC_immu=res10$CD8_positive_alpha_beta_T_cell,
-                          MCP_ciber=res11$T.cells.CD8,MCP_TRef = res12$CD8_T.cells,MCP_BRef = res13$CD8_Tcells,MCP_quan=res14$T.cells.CD8,MCP_immu=res15$CD8_positive_alpha_beta_T_cell,
-                          quan_ciber=res16$T.cells.CD8,quan_TRef = res17$CD8_T.cells,quan_BRef = res18$CD8_Tcells,quan_quan=res19$T.cells.CD8,quan_immu=res20$CD8_positive_alpha_beta_T_cell,
-                          Decon_ciber=res21$T.cells.CD8,Decon_TRef = res22$CD8_T.cells,Decon_BRef = res23$CD8_Tcells,Decon_quan=res24$T.cells.CD8,Decon_immu=res25$CD8_positive_alpha_beta_T_cell,
-                          ciber_abs_ciber=res26$T.cells.CD8,ciber_abs_TRef = res27$CD8_T.cells,ciber_abs_BRef = res28$CD8_Tcells,ciber_abs_quan=res29$T.cells.CD8,ciber_abs_immu=res30$CD8_positive_alpha_beta_T_cell,
-                          scdc_ciber=res31$T.cells.CD8,scdc_TRef = res32$CD8_T.cells,scdc_BRef = res33$CD8_Tcells,scdc_quan=res34$T.cells.CD8,scdc_immu=res35$CD8_positive_alpha_beta_T_cell,
-                          music_ciber=res36$T.cells.CD8,music_TRef = res37$CD8_T.cells,music_BRef = res38$CD8_Tcells,music_quan=res39$T.cells.CD8,music_immu=res40$CD8_positive_alpha_beta_T_cell,
-                          bseq_ciber=res41$T.cells.CD8,bseq_TRef = res42$CD8_T.cells,bseq_BRef = res43$CD8_Tcells,bseq_quan=res44$T.cells.CD8,bseq_immu=res45$CD8_positive_alpha_beta_T_cell,
-                          batman_ciber=res46$T.cells.CD8,batman_TRef = res47$CD8_T.cells,batman_BRef = res48$CD8_Tcells,batman_quan=res49$T.cells.CD8,batman_immu=res50$CD8_positive_alpha_beta_T_cell)
-
-    treg_data = data.frame(ciber_ciber=res1$T.cells.regulatory..Tregs.,ciber_TRef = 0,ciber_BRef = 0,ciber_quan=res4$Tregs,ciber_immu=0,
-                           EPIC_ciber=res6$T.cells.regulatory..Tregs.,EPIC_TRef = 0,EPIC_BRef = 0,EPIC_quan=res9$Tregs,EPIC_immu=0,
-                           MCP_ciber=res11$T.cells.regulatory..Tregs.,MCP_TRef = 0,MCP_BRef = 0,MCP_quan=res14$Tregs,MCP_immu=0,
-                           quan_ciber=res16$T.cells.regulatory..Tregs.,quan_TRef = 0,quan_BRef = 0,quan_quan=res19$Tregs,quan_immu=0,
-                           Decon_ciber=res21$T.cells.regulatory..Tregs.,Decon_TRef = 0,Decon_BRef = 0,Decon_quan=res24$Tregs,Decon_immu=0,
-                           ciber_abs_ciber=res26$T.cells.regulatory..Tregs.,ciber_abs_TRef = 0,ciber_abs_BRef = 0,ciber_abs_quan=res29$Tregs,ciber_abs_immu=0,
-                           scdc_ciber=res31$T.cells.regulatory..Tregs.,scdc_TRef = 0,scdc_BRef = 0,scdc_quan=res34$Tregs,scdc_immu=0,
-                           music_ciber=res36$T.cells.regulatory..Tregs.,music_TRef = 0,music_BRef = 0,music_quan=res39$Tregs,music_immu=0,
-                           bseq_ciber=res41$T.cells.regulatory..Tregs.,bseq_TRef = 0,bseq_BRef = 0,bseq_quan=res44$Tregs,bseq_immu=0,
-                           batman_ciber=res46$T.cells.regulatory..Tregs.,batman_TRef = 0,batman_BRef = 0,batman_quan=res49$Tregs,batman_immu=0)
-
-    nk_data = data.frame(ciber_ciber=res1$NK.cells.resting+res1$NK.cells.activated,ciber_TRef = res2$NK.cells.activated,ciber_BRef = res3$NKcells,ciber_quan=res4$NK.cells,ciber_immu=res5$CD56bright_natural_killer_cell+res5$CD56dim_natural_killer_cell,
-                         EPIC_ciber=res6$NK.cells.resting+res6$NK.cells.activated,EPIC_TRef = res7$NKcells,EPIC_BRef = res8$NKcells,EPIC_quan=res9$NK.cells,EPIC_immu=res10$CD56bright_natural_killer_cell+res10$CD56dim_natural_killer_cell,
-                         MCP_ciber=res11$NK.cells.resting+res11$NK.cells.activated,MCP_TRef = res12$NK.cells.activated,MCP_BRef = res13$NKcells,MCP_quan=res14$NK.cells,MCP_immu=res15$CD56bright_natural_killer_cell+res15$CD56dim_natural_killer_cell,
-                         quan_ciber=res16$NK.cells.resting+res16$NK.cells.activated,quan_TRef = res17$NK.cells.activated,quan_BRef = res18$NKcells,quan_quan=res19$NK.cells,quan_immu=res20$CD56bright_natural_killer_cell+res20$CD56dim_natural_killer_cell,
-                         Decon_ciber=res21$NK.cells.resting+res21$NK.cells.activated,Decon_TRef = res22$NK.cells.activated,Decon_BRef = res23$NKcells,Decon_quan=res24$NK.cells,Decon_immu=res25$CD56bright_natural_killer_cell+res25$CD56dim_natural_killer_cell,
-                         ciber_abs_ciber=res26$NK.cells.resting+res26$NK.cells.activated,ciber_abs_TRef = res27$NK.cells.activated,ciber_abs_BRef = res28$NKcells,ciber_abs_quan=res29$NK.cells,ciber_abs_immu=res30$CD56bright_natural_killer_cell+res30$CD56dim_natural_killer_cell,
-                         scdc_ciber=res31$NK.cells.resting+res31$NK.cells.activated,scdc_TRef = res32$NK.cells.activated,scdc_BRef = res33$NKcells,scdc_quan=res34$NK.cells,scdc_immu=res35$CD56bright_natural_killer_cell+res35$CD56dim_natural_killer_cell,
-                         music_ciber=res36$NK.cells.resting+res36$NK.cells.activated,music_TRef = res37$NK.cells.activated,music_BRef = res38$NKcells,music_quan=res39$NK.cells,music_immu=res40$CD56bright_natural_killer_cell+res40$CD56dim_natural_killer_cell,
-                         bseq_ciber=res41$NK.cells.resting+res41$NK.cells.activated,bseq_TRef = res42$NK.cells.activated,bseq_BRef = res43$NKcells,bseq_quan=res44$NK.cells,bseq_immu=res45$CD56bright_natural_killer_cell+res45$CD56dim_natural_killer_cell,
-                         batman_ciber=res46$NK.cells.resting+res46$NK.cells.activated,batman_TRef = res47$NK.cells.activated,batman_BRef = res48$NKcells,batman_quan=res49$NK.cells,batman_immu=res50$CD56bright_natural_killer_cell+res50$CD56dim_natural_killer_cell)
-
-    mm_data = data.frame(ciber_ciber=res1$Monocytes+res1$Macrophages.M0+res1$Macrophages.M1+res1$Macrophages.M2,ciber_TRef = res2$Macrophages.M0,ciber_BRef = res3$Monocytes,ciber_quan=res4$Macrophages.M1+res4$Macrophages.M2+res4$Monocytes,ciber_immu=res5$CD14_positive_monocyte+res5$CD16_positive_monocyte+res5$macrophage_m0+res5$macrophage_m1+res5$macrophage_m2,
-                         EPIC_ciber=res6$Monocytes+res6$Macrophages.M0+res6$Macrophages.M1+res6$Macrophages.M2,EPIC_TRef = res7$Macrophages,EPIC_BRef = res8$Monocytes,EPIC_quan=res9$Macrophages.M1+res9$Macrophages.M2+res9$Monocytes,EPIC_immu=res10$CD14_positive_monocyte+res10$CD16_positive_monocyte+res10$macrophage_m0+res10$macrophage_m1+res10$macrophage_m2,
-                         MCP_ciber=res11$Monocytes+res11$Macrophages.M0+res11$Macrophages.M1+res11$Macrophages.M2,MCP_TRef = res12$Macrophages.M0,MCP_BRef = res13$Monocytes,MCP_quan=res14$Macrophages.M1+res14$Macrophages.M2+res14$Monocytes,MCP_immu=res15$CD14_positive_monocyte+res15$CD16_positive_monocyte+res15$macrophage_m0+res15$macrophage_m1+res15$macrophage_m2,
-                         quan_ciber=res16$Monocytes+res16$Macrophages.M0+res16$Macrophages.M1+res16$Macrophages.M2,quan_TRef = res17$Macrophages.M0,quan_BRef = res18$Monocytes,quan_quan=res19$Macrophages.M1+res19$Macrophages.M2+res19$Monocytes,quan_immu=res20$CD14_positive_monocyte+res20$CD16_positive_monocyte+res20$macrophage_m0+res20$macrophage_m1+res20$macrophage_m2,
-                         Decon_ciber=res21$Monocytes+res21$Macrophages.M0+res21$Macrophages.M1+res21$Macrophages.M2,Decon_TRef = res22$Macrophages.M0,Decon_BRef = res23$Monocytes,Decon_quan=res24$Macrophages.M1+res24$Macrophages.M2+res24$Monocytes,Decon_immu=res25$CD14_positive_monocyte+res25$CD16_positive_monocyte+res25$macrophage_m0+res25$macrophage_m1+res25$macrophage_m2,
-                         ciber_abs_ciber=res26$Monocytes+res26$Macrophages.M0+res26$Macrophages.M1+res26$Macrophages.M2,ciber_abs_TRef = res27$Macrophages.M0,ciber_abs_BRef = res28$Monocytes,ciber_abs_quan=res29$Macrophages.M1+res29$Macrophages.M2+res29$Monocytes,ciber_abs_immu=res30$CD14_positive_monocyte+res30$CD16_positive_monocyte+res30$macrophage_m0+res30$macrophage_m1+res30$macrophage_m2,
-                         scdc_ciber=res31$Monocytes+res31$Macrophages.M0+res31$Macrophages.M1+res31$Macrophages.M2,scdc_TRef = res32$Macrophages.M0,scdc_BRef = res33$Monocytes,scdc_quan=res34$Macrophages.M1+res34$Macrophages.M2+res34$Monocytes,scdc_immu=res35$CD14_positive_monocyte+res35$CD16_positive_monocyte+res35$macrophage_m0+res35$macrophage_m1+res35$macrophage_m2,
-                         music_ciber=res36$Monocytes+res36$Macrophages.M0+res36$Macrophages.M1+res36$Macrophages.M2,music_TRef = res37$Macrophages.M0,music_BRef = res38$Monocytes,music_quan=res39$Macrophages.M1+res39$Macrophages.M2+res39$Monocytes,music_immu=res40$CD14_positive_monocyte+res40$CD16_positive_monocyte+res40$macrophage_m0+res40$macrophage_m1+res40$macrophage_m2,
-                         bseq_ciber=res41$Monocytes+res41$Macrophages.M0+res41$Macrophages.M1+res41$Macrophages.M2,bseq_TRef = res42$Macrophages.M0,bseq_BRef = res43$Monocytes,bseq_quan=res44$Macrophages.M1+res44$Macrophages.M2+res44$Monocytes,bseq_immu=res45$CD14_positive_monocyte+res45$CD16_positive_monocyte+res45$macrophage_m0+res45$macrophage_m1+res45$macrophage_m2,
-                         batman_ciber=res46$Monocytes+res46$Macrophages.M0+res46$Macrophages.M1+res46$Macrophages.M2,batman_TRef = res47$Macrophages.M0,batman_BRef = res48$Monocytes,batman_quan=res49$Macrophages.M1+res49$Macrophages.M2+res49$Monocytes,batman_immu=res50$CD14_positive_monocyte+res50$CD16_positive_monocyte+res50$macrophage_m0+res50$macrophage_m1+res50$macrophage_m2)
-  } else {
-    b_cell_data = data.frame(ciber_ciber=res1$B.cells.naive+res1$B.cells.memory+res1$Plasma.cells,ciber_quan=res4$B.cells,ciber_immu=res5$naive_B_cell+res5$memory_B_cell+res5$plasma_cell,
-                             EPIC_ciber=res6$B.cells.naive+res6$B.cells.memory+res6$Plasma.cells,EPIC_TRef = res7$Bcells,EPIC_BRef = res8$Bcells,EPIC_quan=res9$B.cells,EPIC_immu=res10$naive_B_cell+res10$memory_B_cell+res10$plasma_cell,
-                             MCP_ciber=res11$B.cells.naive+res11$B.cells.memory+res11$Plasma.cells,MCP_TRef = res12$B.cells.naive,MCP_BRef = res13$Bcells,MCP_quan=res14$B.cells,MCP_immu=res15$naive_B_cell+res15$memory_B_cell+res15$plasma_cell,
-                             quan_ciber=res16$B.cells.naive+res16$B.cells.memory+res16$Plasma.cells,quan_TRef = res17$B.cells.naive,quan_BRef = res18$Bcells,quan_quan=res19$B.cells,quan_immu=res20$naive_B_cell+res20$memory_B_cell+res20$plasma_cell,
-                             Decon_ciber=res21$B.cells.naive+res21$B.cells.memory+res21$Plasma.cells,Decon_TRef = res22$B.cells.naive,Decon_BRef = res23$Bcells,Decon_quan=res24$B.cells,Decon_immu=res25$naive_B_cell+res25$memory_B_cell+res25$plasma_cell,
-                             ciber_abs_ciber=res26$B.cells.naive+res26$B.cells.memory+res26$Plasma.cells,ciber_abs_quan=res29$B.cells,ciber_abs_immu=res30$naive_B_cell+res30$memory_B_cell+res30$plasma_cell,
-                             scdc_ciber=res31$B.cells.naive+res31$B.cells.memory+res31$Plasma.cells,scdc_TRef = res32$B.cells.naive,scdc_BRef = res33$Bcells,scdc_quan=res34$B.cells,scdc_immu=res35$naive_B_cell+res35$memory_B_cell+res35$plasma_cell,
-                             music_ciber=res36$B.cells.naive+res36$B.cells.memory+res36$Plasma.cells,music_TRef = res37$B.cells.naive,music_BRef = res38$Bcells,music_quan=res39$B.cells,music_immu=res40$naive_B_cell+res40$memory_B_cell+res40$plasma_cell,
-                             bseq_ciber=res41$B.cells.naive+res41$B.cells.memory+res41$Plasma.cells,bseq_TRef = res42$B.cells.naive,bseq_BRef = res43$Bcells,bseq_quan=res44$B.cells,bseq_immu=res45$naive_B_cell+res45$memory_B_cell+res45$plasma_cell)
-
-
-    cd4_data = data.frame(ciber_ciber=res1$T.cells.CD4.naive+res1$T.cells.CD4.memory.resting+res1$T.cells.CD4.memory.activated,ciber_quan=res4$T.cells.CD4,ciber_immu=res5$CD4_positive_alpha_beta_T_cell,
-                          EPIC_ciber=res6$T.cells.CD4.naive+res6$T.cells.CD4.memory.resting+res6$T.cells.CD4.memory.activated,EPIC_TRef = res7$CD4_Tcells,EPIC_BRef = res8$CD4_Tcells,EPIC_quan=res9$T.cells.CD4,EPIC_immu=res10$CD4_positive_alpha_beta_T_cell,
-                          MCP_ciber=res11$T.cells.CD4.naive+res11$T.cells.CD4.memory.resting+res11$T.cells.CD4.memory.activated,MCP_TRef = res12$T.cells.CD4.naive,MCP_BRef = res13$CD4_Tcells,MCP_quan=res14$T.cells.CD4,MCP_immu=res15$CD4_positive_alpha_beta_T_cell,
-                          quan_ciber=res16$T.cells.CD4.naive+res16$T.cells.CD4.memory.resting+res16$T.cells.CD4.memory.activated,quan_TRef = res17$T.cells.CD4.naive,quan_BRef = res18$CD4_Tcells,quan_quan=res19$T.cells.CD4,quan_immu=res20$CD4_positive_alpha_beta_T_cell,
-                          Decon_ciber=res21$T.cells.CD4.naive+res21$T.cells.CD4.memory.resting+res21$T.cells.CD4.memory.activated,Decon_TRef = res22$T.cells.CD4.naive,Decon_BRef = res23$CD4_Tcells,Decon_quan=res24$T.cells.CD4,Decon_immu=res25$CD4_positive_alpha_beta_T_cell,
-                          ciber_abs_ciber=res26$T.cells.CD4.naive+res26$T.cells.CD4.memory.resting+res26$T.cells.CD4.memory.activated,ciber_abs_quan=res29$T.cells.CD4,ciber_abs_immu=res30$CD4_positive_alpha_beta_T_cell,
-                          scdc_ciber=res31$T.cells.CD4.naive+res31$T.cells.CD4.memory.resting+res31$T.cells.CD4.memory.activated,scdc_TRef = res32$T.cells.CD4.naive,scdc_BRef = res33$CD4_Tcells,scdc_quan=res34$T.cells.CD4,scdc_immu=res35$CD4_positive_alpha_beta_T_cell,
-                          music_ciber=res36$T.cells.CD4.naive+res36$T.cells.CD4.memory.resting+res36$T.cells.CD4.memory.activated,music_TRef = res37$T.cells.CD4.naive,music_BRef = res38$CD4_Tcells,music_quan=res39$T.cells.CD4,music_immu=res40$CD4_positive_alpha_beta_T_cell,
-                          bseq_ciber=res41$T.cells.CD4.naive+res41$T.cells.CD4.memory.resting+res41$T.cells.CD4.memory.activated,bseq_TRef = res42$T.cells.CD4.naive,bseq_BRef = res43$CD4_Tcells,bseq_quan=res44$T.cells.CD4,bseq_immu=res45$CD4_positive_alpha_beta_T_cell)
-
-    cd8_data = data.frame(ciber_ciber=res1$T.cells.CD8,ciber_quan=res4$T.cells.CD8,ciber_immu=res5$CD8_positive_alpha_beta_T_cell,
-                          EPIC_ciber=res6$T.cells.CD8,EPIC_TRef = res7$CD8_Tcells,EPIC_BRef = res8$CD8_Tcells,EPIC_quan=res9$T.cells.CD8,EPIC_immu=res10$CD8_positive_alpha_beta_T_cell,
-                          MCP_ciber=res11$T.cells.CD8,MCP_TRef = res12$CD8_T.cells,MCP_BRef = res13$CD8_Tcells,MCP_quan=res14$T.cells.CD8,MCP_immu=res15$CD8_positive_alpha_beta_T_cell,
-                          quan_ciber=res16$T.cells.CD8,quan_TRef = res17$CD8_T.cells,quan_BRef = res18$CD8_Tcells,quan_quan=res19$T.cells.CD8,quan_immu=res20$CD8_positive_alpha_beta_T_cell,
-                          Decon_ciber=res21$T.cells.CD8,Decon_TRef = res22$CD8_T.cells,Decon_BRef = res23$CD8_Tcells,Decon_quan=res24$T.cells.CD8,Decon_immu=res25$CD8_positive_alpha_beta_T_cell,
-                          ciber_abs_ciber=res26$T.cells.CD8,ciber_abs_quan=res29$T.cells.CD8,ciber_abs_immu=res30$CD8_positive_alpha_beta_T_cell,
-                          scdc_ciber=res31$T.cells.CD8,scdc_TRef = res32$CD8_T.cells,scdc_BRef = res33$CD8_Tcells,scdc_quan=res34$T.cells.CD8,scdc_immu=res35$CD8_positive_alpha_beta_T_cell,
-                          music_ciber=res36$T.cells.CD8,music_TRef = res37$CD8_T.cells,music_BRef = res38$CD8_Tcells,music_quan=res39$T.cells.CD8,music_immu=res40$CD8_positive_alpha_beta_T_cell,
-                          bseq_ciber=res41$T.cells.CD8,bseq_TRef = res42$CD8_T.cells,bseq_BRef = res43$CD8_Tcells,bseq_quan=res44$T.cells.CD8,bseq_immu=res45$CD8_positive_alpha_beta_T_cell)
-
-    treg_data = data.frame(ciber_ciber=res1$T.cells.regulatory..Tregs.,ciber_quan=res4$Tregs,ciber_immu=0,
-                           EPIC_ciber=res6$T.cells.regulatory..Tregs.,EPIC_TRef = 0,EPIC_BRef = 0,EPIC_quan=res9$Tregs,EPIC_immu=0,
-                           MCP_ciber=res11$T.cells.regulatory..Tregs.,MCP_TRef = 0,MCP_BRef = 0,MCP_quan=res14$Tregs,MCP_immu=0,
-                           quan_ciber=res16$T.cells.regulatory..Tregs.,quan_TRef = 0,quan_BRef = 0,quan_quan=res19$Tregs,quan_immu=0,
-                           Decon_ciber=res21$T.cells.regulatory..Tregs.,Decon_TRef = 0,Decon_BRef = 0,Decon_quan=res24$Tregs,Decon_immu=0,
-                           ciber_abs_ciber=res26$T.cells.regulatory..Tregs.,ciber_abs_quan=res29$Tregs,ciber_abs_immu=0,
-                           scdc_ciber=res31$T.cells.regulatory..Tregs.,scdc_TRef = 0,scdc_BRef = 0,scdc_quan=res34$Tregs,scdc_immu=0,
-                           music_ciber=res36$T.cells.regulatory..Tregs.,music_TRef = 0,music_BRef = 0,music_quan=res39$Tregs,music_immu=0,
-                           bseq_ciber=res41$T.cells.regulatory..Tregs.,bseq_TRef = 0,bseq_BRef = 0,bseq_quan=res44$Tregs,bseq_immu=0)
-
-    nk_data = data.frame(ciber_ciber=res1$NK.cells.resting+res1$NK.cells.activated,ciber_quan=res4$NK.cells,ciber_immu=res5$CD56bright_natural_killer_cell+res5$CD56dim_natural_killer_cell,
-                         EPIC_ciber=res6$NK.cells.resting+res6$NK.cells.activated,EPIC_TRef = res7$NKcells,EPIC_BRef = res8$NKcells,EPIC_quan=res9$NK.cells,EPIC_immu=res10$CD56bright_natural_killer_cell+res10$CD56dim_natural_killer_cell,
-                         MCP_ciber=res11$NK.cells.resting+res11$NK.cells.activated,MCP_TRef = res12$NK.cells.activated,MCP_BRef = res13$NKcells,MCP_quan=res14$NK.cells,MCP_immu=res15$CD56bright_natural_killer_cell+res15$CD56dim_natural_killer_cell,
-                         quan_ciber=res16$NK.cells.resting+res16$NK.cells.activated,quan_TRef = res17$NK.cells.activated,quan_BRef = res18$NKcells,quan_quan=res19$NK.cells,quan_immu=res20$CD56bright_natural_killer_cell+res20$CD56dim_natural_killer_cell,
-                         Decon_ciber=res21$NK.cells.resting+res21$NK.cells.activated,Decon_TRef = res22$NK.cells.activated,Decon_BRef = res23$NKcells,Decon_quan=res24$NK.cells,Decon_immu=res25$CD56bright_natural_killer_cell+res25$CD56dim_natural_killer_cell,
-                         ciber_abs_ciber=res26$NK.cells.resting+res26$NK.cells.activated,ciber_abs_quan=res29$NK.cells,ciber_abs_immu=res30$CD56bright_natural_killer_cell+res30$CD56dim_natural_killer_cell,
-                         scdc_ciber=res31$NK.cells.resting+res31$NK.cells.activated,scdc_TRef = res32$NK.cells.activated,scdc_BRef = res33$NKcells,scdc_quan=res34$NK.cells,scdc_immu=res35$CD56bright_natural_killer_cell+res35$CD56dim_natural_killer_cell,
-                         music_ciber=res36$NK.cells.resting+res36$NK.cells.activated,music_TRef = res37$NK.cells.activated,music_BRef = res38$NKcells,music_quan=res39$NK.cells,music_immu=res40$CD56bright_natural_killer_cell+res40$CD56dim_natural_killer_cell,
-                         bseq_ciber=res41$NK.cells.resting+res41$NK.cells.activated,bseq_TRef = res42$NK.cells.activated,bseq_BRef = res43$NKcells,bseq_quan=res44$NK.cells,bseq_immu=res45$CD56bright_natural_killer_cell+res45$CD56dim_natural_killer_cell)
-
-    mm_data = data.frame(ciber_ciber=res1$Monocytes+res1$Macrophages.M0+res1$Macrophages.M1+res1$Macrophages.M2,ciber_quan=res4$Macrophages.M1+res4$Macrophages.M2+res4$Monocytes,ciber_immu=res5$CD14_positive_monocyte+res5$CD16_positive_monocyte+res5$macrophage_m0+res5$macrophage_m1+res5$macrophage_m2,
-                         EPIC_ciber=res6$Monocytes+res6$Macrophages.M0+res6$Macrophages.M1+res6$Macrophages.M2,EPIC_TRef = res7$Macrophages,EPIC_BRef = res8$Monocytes,EPIC_quan=res9$Macrophages.M1+res9$Macrophages.M2+res9$Monocytes,EPIC_immu=res10$CD14_positive_monocyte+res10$CD16_positive_monocyte+res10$macrophage_m0+res10$macrophage_m1+res10$macrophage_m2,
-                         MCP_ciber=res11$Monocytes+res11$Macrophages.M0+res11$Macrophages.M1+res11$Macrophages.M2,MCP_TRef = res12$Macrophages.M0,MCP_BRef = res13$Monocytes,MCP_quan=res14$Macrophages.M1+res14$Macrophages.M2+res14$Monocytes,MCP_immu=res15$CD14_positive_monocyte+res15$CD16_positive_monocyte+res15$macrophage_m0+res15$macrophage_m1+res15$macrophage_m2,
-                         quan_ciber=res16$Monocytes+res16$Macrophages.M0+res16$Macrophages.M1+res16$Macrophages.M2,quan_TRef = res17$Macrophages.M0,quan_BRef = res18$Monocytes,quan_quan=res19$Macrophages.M1+res19$Macrophages.M2+res19$Monocytes,quan_immu=res20$CD14_positive_monocyte+res20$CD16_positive_monocyte+res20$macrophage_m0+res20$macrophage_m1+res20$macrophage_m2,
-                         Decon_ciber=res21$Monocytes+res21$Macrophages.M0+res21$Macrophages.M1+res21$Macrophages.M2,Decon_TRef = res22$Macrophages.M0,Decon_BRef = res23$Monocytes,Decon_quan=res24$Macrophages.M1+res24$Macrophages.M2+res24$Monocytes,Decon_immu=res25$CD14_positive_monocyte+res25$CD16_positive_monocyte+res25$macrophage_m0+res25$macrophage_m1+res25$macrophage_m2,
-                         ciber_abs_ciber=res26$Monocytes+res26$Macrophages.M0+res26$Macrophages.M1+res26$Macrophages.M2,ciber_abs_quan=res29$Macrophages.M1+res29$Macrophages.M2+res29$Monocytes,ciber_abs_immu=res30$CD14_positive_monocyte+res30$CD16_positive_monocyte+res30$macrophage_m0+res30$macrophage_m1+res30$macrophage_m2,
-                         scdc_ciber=res31$Monocytes+res31$Macrophages.M0+res31$Macrophages.M1+res31$Macrophages.M2,scdc_TRef = res32$Macrophages.M0,scdc_BRef = res33$Monocytes,scdc_quan=res34$Macrophages.M1+res34$Macrophages.M2+res34$Monocytes,scdc_immu=res35$CD14_positive_monocyte+res35$CD16_positive_monocyte+res35$macrophage_m0+res35$macrophage_m1+res35$macrophage_m2,
-                         music_ciber=res36$Monocytes+res36$Macrophages.M0+res36$Macrophages.M1+res36$Macrophages.M2,music_TRef = res37$Macrophages.M0,music_BRef = res38$Monocytes,music_quan=res39$Macrophages.M1+res39$Macrophages.M2+res39$Monocytes,music_immu=res40$CD14_positive_monocyte+res40$CD16_positive_monocyte+res40$macrophage_m0+res40$macrophage_m1+res40$macrophage_m2,
-                         bseq_ciber=res41$Monocytes+res41$Macrophages.M0+res41$Macrophages.M1+res41$Macrophages.M2,bseq_TRef = res42$Macrophages.M0,bseq_BRef = res43$Monocytes,bseq_quan=res44$Macrophages.M1+res44$Macrophages.M2+res44$Monocytes,bseq_immu=res45$CD14_positive_monocyte+res45$CD16_positive_monocyte+res45$macrophage_m0+res45$macrophage_m1+res45$macrophage_m2)
-  }
+  b_cell_data = data.frame(ciber_ciber=res1$B.cells.naive+res1$B.cells.memory+res1$Plasma.cells,ciber_quan=res4$B.cells,ciber_immu=res5$naive_B_cell+res5$memory_B_cell+res5$plasma_cell,
+                           EPIC_ciber=res6$B.cells.naive+res6$B.cells.memory+res6$Plasma.cells,EPIC_TRef = res7$Bcells,EPIC_BRef = res8$Bcells,EPIC_quan=res9$B.cells,EPIC_immu=res10$naive_B_cell+res10$memory_B_cell+res10$plasma_cell,
+                           MCP_ciber=res11$B.cells.naive+res11$B.cells.memory+res11$Plasma.cells,MCP_TRef = res12$B.cells.naive,MCP_BRef = res13$Bcells,MCP_quan=res14$B.cells,MCP_immu=res15$naive_B_cell+res15$memory_B_cell+res15$plasma_cell,
+                           quan_ciber=res16$B.cells.naive+res16$B.cells.memory+res16$Plasma.cells,quan_TRef = res17$B.cells.naive,quan_BRef = res18$Bcells,quan_quan=res19$B.cells,quan_immu=res20$naive_B_cell+res20$memory_B_cell+res20$plasma_cell,
+                           Decon_ciber=res21$B.cells.naive+res21$B.cells.memory+res21$Plasma.cells,Decon_TRef = res22$B.cells.naive,Decon_BRef = res23$Bcells,Decon_quan=res24$B.cells,Decon_immu=res25$naive_B_cell+res25$memory_B_cell+res25$plasma_cell,
+                           ciber_abs_ciber=res26$B.cells.naive+res26$B.cells.memory+res26$Plasma.cells,ciber_abs_quan=res29$B.cells,ciber_abs_immu=res30$naive_B_cell+res30$memory_B_cell+res30$plasma_cell,
+                           scdc_ciber=res31$B.cells.naive+res31$B.cells.memory+res31$Plasma.cells,scdc_TRef = res32$B.cells.naive,scdc_BRef = res33$Bcells,scdc_quan=res34$B.cells,scdc_immu=res35$naive_B_cell+res35$memory_B_cell+res35$plasma_cell,
+                           music_ciber=res36$B.cells.naive+res36$B.cells.memory+res36$Plasma.cells,music_TRef = res37$B.cells.naive,music_BRef = res38$Bcells,music_quan=res39$B.cells,music_immu=res40$naive_B_cell+res40$memory_B_cell+res40$plasma_cell,
+                           bseq_ciber=res41$B.cells.naive+res41$B.cells.memory+res41$Plasma.cells,bseq_TRef = res42$B.cells.naive,bseq_BRef = res43$Bcells,bseq_quan=res44$B.cells,bseq_immu=res45$naive_B_cell+res45$memory_B_cell+res45$plasma_cell)
   
+  cd4_data = data.frame(ciber_ciber=res1$T.cells.CD4.naive+res1$T.cells.CD4.memory.resting+res1$T.cells.CD4.memory.activated,ciber_quan=res4$T.cells.CD4,ciber_immu=res5$CD4_positive_alpha_beta_T_cell,
+                        EPIC_ciber=res6$T.cells.CD4.naive+res6$T.cells.CD4.memory.resting+res6$T.cells.CD4.memory.activated,EPIC_TRef = res7$CD4_Tcells,EPIC_BRef = res8$CD4_Tcells,EPIC_quan=res9$T.cells.CD4,EPIC_immu=res10$CD4_positive_alpha_beta_T_cell,
+                        MCP_ciber=res11$T.cells.CD4.naive+res11$T.cells.CD4.memory.resting+res11$T.cells.CD4.memory.activated,MCP_TRef = res12$T.cells.CD4.naive,MCP_BRef = res13$CD4_Tcells,MCP_quan=res14$T.cells.CD4,MCP_immu=res15$CD4_positive_alpha_beta_T_cell,
+                        quan_ciber=res16$T.cells.CD4.naive+res16$T.cells.CD4.memory.resting+res16$T.cells.CD4.memory.activated,quan_TRef = res17$T.cells.CD4.naive,quan_BRef = res18$CD4_Tcells,quan_quan=res19$T.cells.CD4,quan_immu=res20$CD4_positive_alpha_beta_T_cell,
+                        Decon_ciber=res21$T.cells.CD4.naive+res21$T.cells.CD4.memory.resting+res21$T.cells.CD4.memory.activated,Decon_TRef = res22$T.cells.CD4.naive,Decon_BRef = res23$CD4_Tcells,Decon_quan=res24$T.cells.CD4,Decon_immu=res25$CD4_positive_alpha_beta_T_cell,
+                        ciber_abs_ciber=res26$T.cells.CD4.naive+res26$T.cells.CD4.memory.resting+res26$T.cells.CD4.memory.activated,ciber_abs_quan=res29$T.cells.CD4,ciber_abs_immu=res30$CD4_positive_alpha_beta_T_cell,
+                        scdc_ciber=res31$T.cells.CD4.naive+res31$T.cells.CD4.memory.resting+res31$T.cells.CD4.memory.activated,scdc_TRef = res32$T.cells.CD4.naive,scdc_BRef = res33$CD4_Tcells,scdc_quan=res34$T.cells.CD4,scdc_immu=res35$CD4_positive_alpha_beta_T_cell,
+                        music_ciber=res36$T.cells.CD4.naive+res36$T.cells.CD4.memory.resting+res36$T.cells.CD4.memory.activated,music_TRef = res37$T.cells.CD4.naive,music_BRef = res38$CD4_Tcells,music_quan=res39$T.cells.CD4,music_immu=res40$CD4_positive_alpha_beta_T_cell,
+                        bseq_ciber=res41$T.cells.CD4.naive+res41$T.cells.CD4.memory.resting+res41$T.cells.CD4.memory.activated,bseq_TRef = res42$T.cells.CD4.naive,bseq_BRef = res43$CD4_Tcells,bseq_quan=res44$T.cells.CD4,bseq_immu=res45$CD4_positive_alpha_beta_T_cell)
+  
+  cd8_data = data.frame(ciber_ciber=res1$T.cells.CD8,ciber_quan=res4$T.cells.CD8,ciber_immu=res5$CD8_positive_alpha_beta_T_cell,
+                        EPIC_ciber=res6$T.cells.CD8,EPIC_TRef = res7$CD8_Tcells,EPIC_BRef = res8$CD8_Tcells,EPIC_quan=res9$T.cells.CD8,EPIC_immu=res10$CD8_positive_alpha_beta_T_cell,
+                        MCP_ciber=res11$T.cells.CD8,MCP_TRef = res12$CD8_T.cells,MCP_BRef = res13$CD8_Tcells,MCP_quan=res14$T.cells.CD8,MCP_immu=res15$CD8_positive_alpha_beta_T_cell,
+                        quan_ciber=res16$T.cells.CD8,quan_TRef = res17$CD8_T.cells,quan_BRef = res18$CD8_Tcells,quan_quan=res19$T.cells.CD8,quan_immu=res20$CD8_positive_alpha_beta_T_cell,
+                        Decon_ciber=res21$T.cells.CD8,Decon_TRef = res22$CD8_T.cells,Decon_BRef = res23$CD8_Tcells,Decon_quan=res24$T.cells.CD8,Decon_immu=res25$CD8_positive_alpha_beta_T_cell,
+                        ciber_abs_ciber=res26$T.cells.CD8,ciber_abs_quan=res29$T.cells.CD8,ciber_abs_immu=res30$CD8_positive_alpha_beta_T_cell,
+                        scdc_ciber=res31$T.cells.CD8,scdc_TRef = res32$CD8_T.cells,scdc_BRef = res33$CD8_Tcells,scdc_quan=res34$T.cells.CD8,scdc_immu=res35$CD8_positive_alpha_beta_T_cell,
+                        music_ciber=res36$T.cells.CD8,music_TRef = res37$CD8_T.cells,music_BRef = res38$CD8_Tcells,music_quan=res39$T.cells.CD8,music_immu=res40$CD8_positive_alpha_beta_T_cell,
+                        bseq_ciber=res41$T.cells.CD8,bseq_TRef = res42$CD8_T.cells,bseq_BRef = res43$CD8_Tcells,bseq_quan=res44$T.cells.CD8,bseq_immu=res45$CD8_positive_alpha_beta_T_cell)
+  
+  treg_data = data.frame(ciber_ciber=res1$T.cells.regulatory..Tregs.,ciber_quan=res4$Tregs,ciber_immu=0,
+                         EPIC_ciber=res6$T.cells.regulatory..Tregs.,EPIC_TRef = 0,EPIC_BRef = 0,EPIC_quan=res9$Tregs,EPIC_immu=0,
+                         MCP_ciber=res11$T.cells.regulatory..Tregs.,MCP_TRef = 0,MCP_BRef = 0,MCP_quan=res14$Tregs,MCP_immu=0,
+                         quan_ciber=res16$T.cells.regulatory..Tregs.,quan_TRef = 0,quan_BRef = 0,quan_quan=res19$Tregs,quan_immu=0,
+                         Decon_ciber=res21$T.cells.regulatory..Tregs.,Decon_TRef = 0,Decon_BRef = 0,Decon_quan=res24$Tregs,Decon_immu=0,
+                         ciber_abs_ciber=res26$T.cells.regulatory..Tregs.,ciber_abs_quan=res29$Tregs,ciber_abs_immu=0,
+                         scdc_ciber=res31$T.cells.regulatory..Tregs.,scdc_TRef = 0,scdc_BRef = 0,scdc_quan=res34$Tregs,scdc_immu=0,
+                         music_ciber=res36$T.cells.regulatory..Tregs.,music_TRef = 0,music_BRef = 0,music_quan=res39$Tregs,music_immu=0,
+                         bseq_ciber=res41$T.cells.regulatory..Tregs.,bseq_TRef = 0,bseq_BRef = 0,bseq_quan=res44$Tregs,bseq_immu=0)
+  
+  nk_data = data.frame(ciber_ciber=res1$NK.cells.resting+res1$NK.cells.activated,ciber_quan=res4$NK.cells,ciber_immu=res5$CD56bright_natural_killer_cell+res5$CD56dim_natural_killer_cell,
+                       EPIC_ciber=res6$NK.cells.resting+res6$NK.cells.activated,EPIC_TRef = res7$NKcells,EPIC_BRef = res8$NKcells,EPIC_quan=res9$NK.cells,EPIC_immu=res10$CD56bright_natural_killer_cell+res10$CD56dim_natural_killer_cell,
+                       MCP_ciber=res11$NK.cells.resting+res11$NK.cells.activated,MCP_TRef = res12$NK.cells.activated,MCP_BRef = res13$NKcells,MCP_quan=res14$NK.cells,MCP_immu=res15$CD56bright_natural_killer_cell+res15$CD56dim_natural_killer_cell,
+                       quan_ciber=res16$NK.cells.resting+res16$NK.cells.activated,quan_TRef = res17$NK.cells.activated,quan_BRef = res18$NKcells,quan_quan=res19$NK.cells,quan_immu=res20$CD56bright_natural_killer_cell+res20$CD56dim_natural_killer_cell,
+                       Decon_ciber=res21$NK.cells.resting+res21$NK.cells.activated,Decon_TRef = res22$NK.cells.activated,Decon_BRef = res23$NKcells,Decon_quan=res24$NK.cells,Decon_immu=res25$CD56bright_natural_killer_cell+res25$CD56dim_natural_killer_cell,
+                       ciber_abs_ciber=res26$NK.cells.resting+res26$NK.cells.activated,ciber_abs_quan=res29$NK.cells,ciber_abs_immu=res30$CD56bright_natural_killer_cell+res30$CD56dim_natural_killer_cell,
+                       scdc_ciber=res31$NK.cells.resting+res31$NK.cells.activated,scdc_TRef = res32$NK.cells.activated,scdc_BRef = res33$NKcells,scdc_quan=res34$NK.cells,scdc_immu=res35$CD56bright_natural_killer_cell+res35$CD56dim_natural_killer_cell,
+                       music_ciber=res36$NK.cells.resting+res36$NK.cells.activated,music_TRef = res37$NK.cells.activated,music_BRef = res38$NKcells,music_quan=res39$NK.cells,music_immu=res40$CD56bright_natural_killer_cell+res40$CD56dim_natural_killer_cell,
+                       bseq_ciber=res41$NK.cells.resting+res41$NK.cells.activated,bseq_TRef = res42$NK.cells.activated,bseq_BRef = res43$NKcells,bseq_quan=res44$NK.cells,bseq_immu=res45$CD56bright_natural_killer_cell+res45$CD56dim_natural_killer_cell)
+  
+  mm_data = data.frame(ciber_ciber=res1$Monocytes+res1$Macrophages.M0+res1$Macrophages.M1+res1$Macrophages.M2,ciber_quan=res4$Macrophages.M1+res4$Macrophages.M2+res4$Monocytes,ciber_immu=res5$CD14_positive_monocyte+res5$CD16_positive_monocyte+res5$macrophage_m0+res5$macrophage_m1+res5$macrophage_m2,
+                       EPIC_ciber=res6$Monocytes+res6$Macrophages.M0+res6$Macrophages.M1+res6$Macrophages.M2,EPIC_TRef = res7$Macrophages,EPIC_BRef = res8$Monocytes,EPIC_quan=res9$Macrophages.M1+res9$Macrophages.M2+res9$Monocytes,EPIC_immu=res10$CD14_positive_monocyte+res10$CD16_positive_monocyte+res10$macrophage_m0+res10$macrophage_m1+res10$macrophage_m2,
+                       MCP_ciber=res11$Monocytes+res11$Macrophages.M0+res11$Macrophages.M1+res11$Macrophages.M2,MCP_TRef = res12$Macrophages.M0,MCP_BRef = res13$Monocytes,MCP_quan=res14$Macrophages.M1+res14$Macrophages.M2+res14$Monocytes,MCP_immu=res15$CD14_positive_monocyte+res15$CD16_positive_monocyte+res15$macrophage_m0+res15$macrophage_m1+res15$macrophage_m2,
+                       quan_ciber=res16$Monocytes+res16$Macrophages.M0+res16$Macrophages.M1+res16$Macrophages.M2,quan_TRef = res17$Macrophages.M0,quan_BRef = res18$Monocytes,quan_quan=res19$Macrophages.M1+res19$Macrophages.M2+res19$Monocytes,quan_immu=res20$CD14_positive_monocyte+res20$CD16_positive_monocyte+res20$macrophage_m0+res20$macrophage_m1+res20$macrophage_m2,
+                       Decon_ciber=res21$Monocytes+res21$Macrophages.M0+res21$Macrophages.M1+res21$Macrophages.M2,Decon_TRef = res22$Macrophages.M0,Decon_BRef = res23$Monocytes,Decon_quan=res24$Macrophages.M1+res24$Macrophages.M2+res24$Monocytes,Decon_immu=res25$CD14_positive_monocyte+res25$CD16_positive_monocyte+res25$macrophage_m0+res25$macrophage_m1+res25$macrophage_m2,
+                       ciber_abs_ciber=res26$Monocytes+res26$Macrophages.M0+res26$Macrophages.M1+res26$Macrophages.M2,ciber_abs_quan=res29$Macrophages.M1+res29$Macrophages.M2+res29$Monocytes,ciber_abs_immu=res30$CD14_positive_monocyte+res30$CD16_positive_monocyte+res30$macrophage_m0+res30$macrophage_m1+res30$macrophage_m2,
+                       scdc_ciber=res31$Monocytes+res31$Macrophages.M0+res31$Macrophages.M1+res31$Macrophages.M2,scdc_TRef = res32$Macrophages.M0,scdc_BRef = res33$Monocytes,scdc_quan=res34$Macrophages.M1+res34$Macrophages.M2+res34$Monocytes,scdc_immu=res35$CD14_positive_monocyte+res35$CD16_positive_monocyte+res35$macrophage_m0+res35$macrophage_m1+res35$macrophage_m2,
+                       music_ciber=res36$Monocytes+res36$Macrophages.M0+res36$Macrophages.M1+res36$Macrophages.M2,music_TRef = res37$Macrophages.M0,music_BRef = res38$Monocytes,music_quan=res39$Macrophages.M1+res39$Macrophages.M2+res39$Monocytes,music_immu=res40$CD14_positive_monocyte+res40$CD16_positive_monocyte+res40$macrophage_m0+res40$macrophage_m1+res40$macrophage_m2,
+                       bseq_ciber=res41$Monocytes+res41$Macrophages.M0+res41$Macrophages.M1+res41$Macrophages.M2,bseq_TRef = res42$Macrophages.M0,bseq_BRef = res43$Monocytes,bseq_quan=res44$Macrophages.M1+res44$Macrophages.M2+res44$Monocytes,bseq_immu=res45$CD14_positive_monocyte+res45$CD16_positive_monocyte+res45$macrophage_m0+res45$macrophage_m1+res45$macrophage_m2)
+  
+  if(single.cell == TRUE){
+    b_cell_data = cbind(b_cell_data,bayes_bayes = res51$B.cells)
+    
+    cd4_data = cbind(cd4_data,bayes_bayes=res51$CD4..T.cells)
+    
+    cd8_data = cbind(cd8_data,bayes_bayes=res51$CD8..T.cells)
+    
+    treg_data = cbind(treg_data,bayes_bayes=res51$regulatory.T.cells)
+    
+    nk_data = cbind(nk_data,bayes_bayes=res51$Natural.killer.cells)
+    
+    mm_data = cbind(mm_data,bayes_bayes=res51$Macrophages.Monocytes)
+  } 
+  
+  if(light == FALSE){
+      b_cell_data = cbind(ciber_ciber = b_cell_data[,1],ciber_TRef = res2$B.cells.naive,ciber_BRef = res3$Bcells,b_cell_data[,2:24], 
+                          ciber_abs_TRef = res27$B.cells.naive,ciber_abs_BRef = res28$Bcells,b_cell_data[,25:ncol(b_cell_data)],
+                          batman_ciber=res46$B.cells.naive+res46$B.cells.memory,batman_TRef = res47$B.cells.naive,
+                          batman_BRef = res48$Bcells,batman_quan=res49$B.cells,
+                          batman_immu=res50$naive_B_cell+res50$memory_B_cell+res50$plasma_cell)
+      
+      cd4_data = cbind(ciber_ciber = cd4_data[,1],ciber_TRef = res2$T.cells.CD4.naive,ciber_BRef = res3$CD4_Tcells,cd4_data[,2:24], 
+                       ciber_abs_TRef = res27$T.cells.CD4.naive,ciber_abs_BRef = res28$CD4_Tcells,cd4_data[,25:ncol(cd4_data)],
+                       batman_ciber=res46$T.cells.CD4.naive+res46$T.cells.CD4.memory.resting+res46$T.cells.CD4.memory.activated,
+                       batman_TRef = res47$T.cells.CD4.naive,batman_BRef = res48$CD4_Tcells,batman_quan=res49$T.cells.CD4,
+                       batman_immu=res50$CD4_positive_alpha_beta_T_cell)
+      
+      cd8_data = cbind(ciber_ciber = cd8_data[,1],ciber_TRef = res2$B.cells.naive,ciber_BRef = res3$Bcells,cd8_data[,2:24], 
+                       ciber_abs_TRef = res27$B.cells.naive,ciber_abs_BRef = res28$Bcells,cd8_data[,25:ncol(cd8_data)],
+                       batman_ciber=res46$B.cells.naive+res46$B.cells.memory,batman_TRef = res47$B.cells.naive,
+                       batman_BRef = res48$Bcells,batman_quan=res49$B.cells,
+                       batman_immu=res50$naive_B_cell+res50$memory_B_cell+res50$plasma_cell)
+      
+      treg_data = cbind(ciber_ciber = treg_data[,1],ciber_TRef = 0,ciber_BRef = 0,treg_data[,2:24], 
+                        ciber_abs_TRef = 0,ciber_abs_BRef = 0,treg_data[,25:ncol(treg_data)],
+                        batman_ciber=res46$T.cells.regulatory..Tregs.,batman_TRef = 0,
+                        batman_BRef = 0,batman_quan=res49$Tregs,batman_immu=0)
+      
+      nk_data = cbind(ciber_ciber = nk_data[,1],ciber_TRef = res2$NK.cells.activated,ciber_BRef = res3$NKcells,nk_data[,2:24], 
+                      ciber_abs_TRef = res27$NK.cells.activated,ciber_abs_BRef = res28$NKcells,nk_data[,25:ncol(nk_data)],
+                      batman_ciber=res46$NK.cells.resting+res46$NK.cells.activated,batman_TRef = res47$NK.cells.activated,
+                      batman_BRef = res48$NKcells,batman_quan=res49$NK.cells,batman_immu=res50$CD56bright_natural_killer_cell
+                      +res50$CD56dim_natural_killer_cell)
+      
+      mm_data = cbind(ciber_ciber = mm_data[,1],ciber_TRef = res2$Macrophages.M0,ciber_BRef = res3$Monocytes,mm_data[,2:24], 
+                      ciber_abs_TRef = res2$Macrophages.M0,ciber_abs_BRef = res3$Monocytes,mm_data[,25:ncol(mm_data)],
+                      batman_ciber=res46$Monocytes+res46$Macrophages.M0+res46$Macrophages.M1+res46$Macrophages.M2,
+                      batman_TRef = res47$Macrophages.M0,batman_BRef = res48$Monocytes,
+                      batman_quan=res49$Macrophages.M1+res49$Macrophages.M2+res49$Monocytes,
+                      batman_immu=res50$CD14_positive_monocyte+res50$CD16_positive_monocyte+res50$macrophage_m0+res50$macrophage_m1+res50$macrophage_m2)
+    } 
+
   DECEPTICON_res = data.frame(B_cell =(b_cell_data[,colnames(b_cell_data) == b_res[1]]*0.25+ b_cell_data[,colnames(b_cell_data) == b_res[2]]*0.25+ b_cell_data[,colnames(b_cell_data) == b_res[3]]*0.25+ b_cell_data[,colnames(b_cell_data) == b_res[4]]*0.25),
                             cd4 = (cd4_data[,colnames(cd4_data) == cd4_res[1]]*0.25+ cd4_data[,colnames(cd4_data) == cd4_res[2]]*0.25+ cd4_data[,colnames(cd4_data) == cd4_res[3]]*0.25+ cd4_data[,colnames(cd4_data) == cd4_res[4]]*0.25),
                             cd8 = (cd8_data[,colnames(cd8_data) == cd8_res[1]]*0.25+ cd8_data[,colnames(cd8_data) == cd8_res[2]]*0.25+ cd8_data[,colnames(cd8_data) == cd8_res[3]]*0.25+ cd8_data[,colnames(cd8_data) == cd8_res[4]]*0.25),
@@ -522,17 +492,19 @@ DECEPTICON_output <- function(light = FALSE){
 #'@param custom.signature set to TRUE for custom signature matrix
 #'@param signature.matrix a i*l matrix with i genes and l cell types.
 #'@export
-run_DECEPTICON <- function(bulk.samples, RUNpath, light = FALSE, custom.signature = FALSE, signature.matrix = NULL){
+run_DECEPTICON <- function(bulk.samples, RUNpath, light = FALSE, custom.signature = FALSE, signature.matrix = NULL,
+                           single.cell = FALSE, single.cell.data = NULL, cell.type.labels = NULL){
   bulk.samples = bulk.samples
   RUNpath = RUNpath
   light = light
-  dir.create("res")
+  single.cell.data = single.cell.data
   if(custom.signature == FALSE){
-    DECEPTICON_methods(bulk.samples, RUNpath, light)
-    DECEPTICON_output(light)
+    DECEPTICON_methods(bulk.samples, RUNpath, light, single.cell, single.cell.data, cell.type.labels)
+    DECEPTICON_output(light,single.cell)
   } else {
-    DECEPTICON_custom_methods(bulk.samples = bulk.samples, RUNpath = RUNpath, signature.matrix = signature.matrix)
-    DECEPTICON__custom_output(signature.matrix = signature.matrix)
+    DECEPTICON_custom_methods(bulk.samples = bulk.samples, RUNpath =RUNpath, signature.matrix = signature.matrix,light = light, 
+                              single.cell = single.cell, cell.type.labels = cell.type.labels, single.cell.data = single.cell.data)
+    DECEPTICON_custom_output(signature.matrix, light, single.cell)
   }
   message("Deconvolution sucessful!")
 }

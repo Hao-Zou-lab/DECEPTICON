@@ -1,3 +1,39 @@
+#'Deconvolute using BayesPrism(Cell type and gene expression deconvolution with BayesPrism enables Bayesian integrative analysis across bulk and single-cell RNA sequencing in oncology)
+#'
+#'@param mix_file a m*n matrix with m genes and n samples
+#'@param single_cell_data  scRNA-seq reference count matrix. colnames are gene IDs/names, and rownames are cell IDs or cell state/type names
+#'@param cell.type.labels character vector to denote cell types of each cell
+#'@export
+DECEPTICON_bayes <- function(mixture_file, single_cell_data, cell.type.labels){
+  bk.dat = read.table(mixture_file, header = T,sep = '\t',row.names = 1)
+  sc.dat = single_cell_data
+  bk.dat = t(bk.dat)
+  sc.dat.filtered <- BayesPrism::cleanup.genes (input=sc.dat,
+                                    input.type="count.matrix",
+                                    species="hs",
+                                    gene.group=c( "Rb","Mrp","other_Rb","chrM","MALAT1","chrX","chrY") ,
+                                    exp.cells=1)
+  sc.dat.filtered.pc <- BayesPrism::select.gene.type (sc.dat.filtered,
+                                          gene.type = "protein_coding")
+  myPrism <- BayesPrism::new.prism(
+    reference=sc.dat.filtered.pc,
+    mixture=bk.dat,
+    input.type="count.matrix",
+    cell.type.labels = cell.type.labels,
+    cell.state.labels = NULL,
+    key=NULL,
+    outlier.cut=0.01,
+    outlier.fraction=0.1,
+  )
+
+  bp.res <- BayesPrism::run.prism(prism = myPrism, n.cores=50)
+  theta <- BayesPrism::get.fraction (bp=bp.res,
+                         which.theta="final",
+                         state.or.type="type")
+  write.table(theta, './res/bayes_bayes.txt', sep='\t', row.names= T, col.names= T, quote=F)
+  }
+
+
 #'Deconvolute using CIBERSORT(Robust enumeration of cell subsets from tissue expression profiles)
 #'
 #'@param mix_file a m*n matrix with m genes and n samples
@@ -326,37 +362,73 @@ DECEPTICON_batman <- function(){
 #'@param RUNpath Working path for storing files
 #'@param light set to TRUE for light version of DECEPTICON
 #'@export
-DECEPTICON_methods <- function(bulk.samples, RUNpath, light){
+DECEPTICON_methods <- function(bulk.samples, RUNpath, light, single.cell, sing.cell.data, cell.type.labels){
   bulk.samples = bulk.samples
   RUNpath = RUNpath
   light = light
+  single.cell = single.cell
+  sing.cell.data = sing.cell.data
+  cell.type.labels = cell.type.labels
   setwd(RUNpath)
-  message(paste0("\n",">>> Running ", "CIBERSORT"))
-  DECEPTICON_ciber(mixture_file = bulk.samples, light = light)
-  message(paste0("\n",">>> Running ", "CIBERSORT-abs"))
-  DECEPTICON_ciber_abs(mixture_file = bulk.samples, light = light)
-  message(paste0("\n",">>> Running ", "EPIC"))
-  DECEPTICON_epic(mix.mat = bulk.samples)
-  message(paste0("\n",">>> Running ", "DeconRNAseq"))
-  DECEPTICON_decon(dataset = bulk.samples)
-  message(paste0("\n",">>> Running ", "MCPcounter"))
-  DECEPTICON_mcp(data = bulk.samples)
-  message(paste0("\n",">>> Running ", "quanTIseq"))
-  DECEPTICON_quan(mix.mat = bulk.samples)
-  data = read.table(bulk.samples, header = T,sep = '\t',row.names = 1)
-  fdata = rownames(data)
-  pdata = cbind(sampleID = c(rep(1:length(data))),subjectname = c(rep("num1",times=length(data))),celltypeID = rep(1:length(data)))
-  data = SCDC::getESET(data,fdata = fdata,pdata = pdata)
-  message(paste0("\n",">>> Running ", "Bseq-SC"))
-  DECEPTICON_bseq(data)
-  message(paste0("\n",">>> Running ", "SCDC"))
-  DECEPTICON_scdc(data)
-  message(paste0("\n",">>> Running ", "MuSic"))
-  DECEPTICON_music(data)
-  if(light == FALSE){
-    message(paste0("\n",">>> Running ", "Batman"))
-    DECEPTICON_batman()
-  }
+  dir.create("res")
+  if(single.cell == FALSE){
+    message(paste0("\n",">>> Running ", "CIBERSORT"))
+    DECEPTICON_ciber(mixture_file = bulk.samples, light = light)
+    message(paste0("\n",">>> Running ", "CIBERSORT-abs"))
+    DECEPTICON_ciber_abs(mixture_file = bulk.samples, light = light)
+    message(paste0("\n",">>> Running ", "EPIC"))
+    DECEPTICON_epic(mix.mat = bulk.samples)
+    message(paste0("\n",">>> Running ", "DeconRNAseq"))
+    DECEPTICON_decon(dataset = bulk.samples)
+    message(paste0("\n",">>> Running ", "MCPcounter"))
+    DECEPTICON_mcp(data = bulk.samples)
+    message(paste0("\n",">>> Running ", "quanTIseq"))
+    DECEPTICON_quan(mix.mat = bulk.samples)
+    data = read.table(bulk.samples, header = T,sep = '\t',row.names = 1)
+    fdata = rownames(data)
+    pdata = cbind(sampleID = c(rep(1:length(data))),subjectname = c(rep("num1",times=length(data))),celltypeID = rep(1:length(data)))
+    data = SCDC::getESET(data,fdata = fdata,pdata = pdata)
+    message(paste0("\n",">>> Running ", "Bseq-SC"))
+    DECEPTICON_bseq(data)
+    message(paste0("\n",">>> Running ", "SCDC"))
+    DECEPTICON_scdc(data)
+    message(paste0("\n",">>> Running ", "MuSic"))
+    DECEPTICON_music(data)
+    if(light == FALSE){
+      message(paste0("\n",">>> Running ", "Batman"))
+      DECEPTICON_batman()
+    }
+    } else {
+      message(paste0("\n",">>> Running ", "BayesPrism"))
+      DECEPTICON_bayes(mixture_file = bulk.samples, single_cell_data = single.cell.data, cell.type.labels = cell.type.labels)
+      message(paste0("\n",">>> Running ", "CIBERSORT"))
+      DECEPTICON_ciber(mixture_file = bulk.samples, light = light)
+      message(paste0("\n",">>> Running ", "CIBERSORT-abs"))
+      DECEPTICON_ciber_abs(mixture_file = bulk.samples, light = light)
+      message(paste0("\n",">>> Running ", "EPIC"))
+      DECEPTICON_epic(mix.mat = bulk.samples)
+      message(paste0("\n",">>> Running ", "DeconRNAseq"))
+      DECEPTICON_decon(dataset = bulk.samples)
+      message(paste0("\n",">>> Running ", "MCPcounter"))
+      DECEPTICON_mcp(data = bulk.samples)
+      message(paste0("\n",">>> Running ", "quanTIseq"))
+      DECEPTICON_quan(mix.mat = bulk.samples)
+      data = read.table(bulk.samples, header = T,sep = '\t',row.names = 1)
+      fdata = rownames(data)
+      pdata = cbind(sampleID = c(rep(1:length(data))),subjectname = c(rep("num1",times=length(data))),celltypeID = rep(1:length(data)))
+      data = SCDC::getESET(data,fdata = fdata,pdata = pdata)
+      message(paste0("\n",">>> Running ", "Bseq-SC"))
+      DECEPTICON_bseq(data)
+      message(paste0("\n",">>> Running ", "SCDC"))
+      DECEPTICON_scdc(data)
+      message(paste0("\n",">>> Running ", "MuSic"))
+      DECEPTICON_music(data)
+      if(light == FALSE){
+        message(paste0("\n",">>> Running ", "Batman"))
+        DECEPTICON_batman()
+      }
+      }
+
 }
 
 
