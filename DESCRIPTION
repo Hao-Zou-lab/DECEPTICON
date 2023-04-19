@@ -1,0 +1,11 @@
+Package: DECEPTICON
+Title: DEconvolution for CEll Proportion esTImation by CONsensus
+Version: 1.0.0.2
+Authors@R: 
+    person("Fulan","Deng", , "1019452827@qq.com", role = c("aut", "cre"))
+Description: Quantifying the abundance of immune cells in bulk RNA-seq samples.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.2
