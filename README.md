@@ -68,11 +68,12 @@ install.packages("DECEPTICON_1.0.0.2.tar.gz", repos = NULL, type = "source")
 Preparatory Work
 -
 Download the required files from exdata in the current interface:
-1. exdata contains five expression templates provided by DECEPTICON, which are stored in a folder and named as "signature_matrix".
-2. exdata also contains other files required by DECEPTICON. After downloading, these files are stored in the same path as "signature_matrix".
+1. Download the CIBERSORT.r file from the cibersort website (https://cibersortx.stanford.edu/).
+2. exdata contains five expression templates provided by DECEPTICON, which are stored in a folder and named as "signature_matrix".
+3. exdata also contains other files required by DECEPTICON. After downloading, these files are stored in the same path as "signature_matrix".
    Note: the file type of the expression template is txt, with rows representing genes and columns representing cell types; the names of all files cannot be changed.
-3. If the user wants to use the custom expression template,it needs to be stored in the "custom_signature_matrix" folder of the same path.
-4. Before running DECEPTICON, need to modify BATMAN's data. See "batman _ usage" for detailed use of BATMAN.
+4. If the user wants to use the custom expression template,it needs to be stored in the "custom_signature_matrix" folder of the same path.
+5. Before running DECEPTICON, need to modify BATMAN's data. See "batman _ usage" for detailed use of BATMAN.
    Example files of mand are in "batmand _ data"
 
 ![image](https://github.com/Hao-Zou-lab/DECEPTICON/blob/main/f.png)
