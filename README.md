@@ -2,7 +2,7 @@ DECEPTICON
 -
 ![logo](./logo1.png)
 
-DEconvolution for CEll Proportion esTImation by CONsensus
+DEconvolution for CEll Proportion esTImation by COrrelatioN
 
 Install associated packages
 -
@@ -63,7 +63,7 @@ install_github("Danko-Lab/BayesPrism/BayesPrism")
 Install DECEPTICON
 -
 ```R
-install.packages("DECEPTICON_1.0.0.2.tar.gz", repos = NULL, type = "source")
+install.packages("DECEPTICON_1.0.0.4.tar.gz", repos = NULL, type = "source")
 ```
 Preparatory Work
 -
